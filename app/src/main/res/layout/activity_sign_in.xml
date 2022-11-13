@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0F0F11"
+    tools:context=".signIn_Activity">
+
+    <TextView
+        android:id="@+id/SignIntitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:text="Welcome To
+        FindYourJimmy!"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></TextView>
+
+    <TextView
+        android:id="@+id/ketSignIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="152dp"
+        android:text="Please fill Sign In To Your Account"
+        android:textColor="#5A5757"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></TextView>
+
+    <TextView
+        android:id="@+id/roundedinput1"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="72dp"
+        android:background="@drawable/radius"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ketSignIn"></TextView>
+
+    <EditText
+        android:id="@+id/username"
+        android:layout_width="300dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginBottom="12dp"
+        android:background="@null"
+        android:hint="Email Address"
+        android:inputType="text|textNoSuggestions"
+        android:textColorHint="#7b8799"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/roundedinput1"
+        app:layout_constraintStart_toStartOf="@+id/roundedinput1"></EditText>
+
+    <TextView
+        android:id="@+id/roundedinput2"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/radius"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/roundedinput1"></TextView>
+
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="300dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginBottom="12dp"
+        android:background="@null"
+        android:hint="Password"
+        android:inputType="text|textNoSuggestions"
+        android:textColorHint="#7b8799"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/roundedinput2"
+        app:layout_constraintStart_toStartOf="@+id/roundedinput2"></EditText>
+
+    <TextView
+        android:id="@+id/btnReady"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="108dp"
+        android:background="@drawable/roundedbtn"
+        android:gravity="center"
+        android:text="I'm Ready!"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/roundedinput2"></TextView>
+
+    <TextView
+        android:id="@+id/Google"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/roundedgugel"
+        android:gravity="center"
+        android:text="Sign In with Google"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnReady"></TextView>
+
+    <TextView
+        android:id="@+id/DontHaveAnAcc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:text="Don't Have an Account?"
+        android:textColor="@color/white"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.363"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Google"></TextView>
+
+    <TextView
+        android:id="@+id/SignUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:text="Sign Up"
+        android:textColor="#4453c9"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.144"
+        app:layout_constraintStart_toEndOf="@+id/DontHaveAnAcc"
+        app:layout_constraintTop_toBottomOf="@+id/Google"></TextView>
+
+    <ImageView
+        android:id="@+id/gugelimage"
+        android:layout_width="47dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="20dp"
+        android:src="@drawable/goggle"
+        app:layout_constraintBottom_toBottomOf="@+id/Google"
+        app:layout_constraintStart_toStartOf="@+id/Google"
+        app:layout_constraintTop_toTopOf="@+id/Google"></ImageView>
+</androidx.constraintlayout.widget.ConstraintLayout>
