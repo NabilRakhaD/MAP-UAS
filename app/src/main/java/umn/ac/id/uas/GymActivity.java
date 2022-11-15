@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -30,16 +31,18 @@ public class GymActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.search:
+                        Toast.makeText(GymActivity.this, "cok search", Toast.LENGTH_SHORT).show();
                         searchGymPT();
                         break;
+
                     case R.id.home:
-                        Intent MoveToHome = new Intent(GymActivity.this, MainActivity.class);
-                        startActivity(MoveToHome);
+                        Toast.makeText(GymActivity.this, "cok hoome cok", Toast.LENGTH_SHORT).show();
                         break;
 
                     case R.id.profile:
                         Intent MoveToProfile = new Intent(GymActivity.this, ProfilActivity.class);
                         startActivity(MoveToProfile);
+                        Toast.makeText(GymActivity.this, "cok profile cok", Toast.LENGTH_SHORT).show();
                         break;
                 }
                 return true;
