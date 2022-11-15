@@ -100,6 +100,8 @@ public class signIn_Activity extends AppCompatActivity {
             try {
                 task.getResult(ApiException.class);
                 acct = GoogleSignIn.getLastSignedInAccount(this);
+                Intent MoveToMainActivity2 = new Intent(this,MainActivity.class);
+                startActivity(MoveToMainActivity2);
 
                 Toast.makeText(this, "Welcome, " + acct.getDisplayName(), Toast.LENGTH_SHORT).show();
             } catch (ApiException e) {

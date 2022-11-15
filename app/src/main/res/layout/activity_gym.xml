@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".GymActivity">
 
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/btmNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/btnnavigationmenu"
+        android:layout_marginBottom="20dp">
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
+
     <ImageView
         android:layout_width="fill_parent"
         android:layout_height="230dp"

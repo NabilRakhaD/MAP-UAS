@@ -1,5 +1,6 @@
 package umn.ac.id.uas;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -7,13 +8,19 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
 public class MainActivity extends AppCompatActivity {
     ImageView searchpic, homepic, profilepic;
+    TextView HomeTitle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,24 +30,12 @@ public class MainActivity extends AppCompatActivity {
             getSupportActionBar().hide();
         }
 
-        searchpic = findViewById(R.id.searchLogo);
-        homepic = findViewById(R.id.homeLogo);
-        profilepic = findViewById(R.id.profileLogo);
+        HomeTitle = findViewById(R.id.HomeTitle);
 
-        searchpic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                searchGymPT();
-            }
-        });
+        String name = GoogleSignIn.getLastSignedInAccount(this).getDisplayName();
 
-        profilepic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent MoveToProfile = new Intent(MainActivity.this, ProfilActivity.class);
-                startActivity(MoveToProfile);
-            }
-        });
+        HomeTitle.setText("Go Gym, " + name.split(" ", 3 )[0]);
+
     }
 
     protected void searchGymPT(){
@@ -76,5 +71,22 @@ public class MainActivity extends AppCompatActivity {
         });
 
         search.show();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.search:
+                searchGymPT();
+                break;
+            case R.id.home:
+                break;
+
+            case R.id.profile:
+                Intent MoveToProfile = new Intent(MainActivity.this, ProfilActivity.class);
+                startActivity(MoveToProfile);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
