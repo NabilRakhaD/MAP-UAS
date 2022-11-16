@@ -5,6 +5,6 @@ import retrofit2.http.GET;
 
 
 public interface ApiEndpoint {
-    @GET("user")
-    Call<UserModel> getUser();
+    @GET("index.php")
+    Call<GymModel> getGym();
 }

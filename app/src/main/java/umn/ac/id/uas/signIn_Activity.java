@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,7 +22,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import umn.ac.id.uas.retrofit.APIService;
-import umn.ac.id.uas.retrofit.UserModel;
 
 public class signIn_Activity extends AppCompatActivity {
     TextView signUp, btnReady, title;
