@@ -3,6 +3,7 @@ package umn.ac.id.uas;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -17,7 +18,14 @@ import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
+import java.util.ArrayList;
+
 public class GymActivity extends AppCompatActivity {
+    private RecyclerView recyclerView;
+    private ListGymAdapter gymadap;
+    public ArrayList<Gym>listgym = new ArrayList<>();
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,18 +39,17 @@ public class GymActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.search:
-                        Toast.makeText(GymActivity.this, "cok search", Toast.LENGTH_SHORT).show();
                         searchGymPT();
                         break;
 
                     case R.id.home:
-                        Toast.makeText(GymActivity.this, "cok hoome cok", Toast.LENGTH_SHORT).show();
+                        Intent MoveToHome = new Intent(GymActivity.this, MainActivity.class);
+                        startActivity(MoveToHome);
                         break;
 
                     case R.id.profile:
                         Intent MoveToProfile = new Intent(GymActivity.this, ProfilActivity.class);
                         startActivity(MoveToProfile);
-                        Toast.makeText(GymActivity.this, "cok profile cok", Toast.LENGTH_SHORT).show();
                         break;
                 }
                 return true;

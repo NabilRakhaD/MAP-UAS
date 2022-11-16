@@ -8,6 +8,7 @@
     tools:context=".ProfilActivity">
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/btmNavigationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/rounded"
@@ -34,21 +35,21 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="168dp"
+        android:layout_height="161dp"
         app:cardCornerRadius="100dp"
         app:cardElevation="0dp"
-        app:layout_constraintVertical_bias="0.05"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.05">
 
         <ImageView
             android:id="@+id/profilePic"
-            android:layout_width="match_parent"
-            android:layout_height="87dp"
-            android:layout_marginTop="28dp"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:scaleType="centerCrop"
             android:src="@drawable/goldgym"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.495"
@@ -60,7 +61,7 @@
         android:id="@+id/profilename"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="148dp"
+        android:layout_marginTop="116dp"
         android:text="Jimmy"
         android:textColor="@color/white"
         android:textSize="25dp"
@@ -85,7 +86,7 @@
         android:id="@+id/backgroundlist"
         android:layout_width="320dp"
         android:layout_height="200dp"
-        android:layout_marginTop="112dp"
+        android:layout_marginTop="100dp"
         android:background="@drawable/radius"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
@@ -148,16 +149,16 @@
         android:id="@+id/ManageMember"
         android:layout_width="310dp"
         android:layout_height="50dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="48dp"
         android:background="@drawable/roundedbtn"
+        android:gravity="center"
         android:text="Manage Membership"
         android:textColor="@color/white"
-        android:gravity="center"
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.544"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/backgroundlist">
-    </TextView>
+        app:layout_constraintTop_toBottomOf="@+id/backgroundlist"></TextView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

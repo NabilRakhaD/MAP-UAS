@@ -12,6 +12,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 
 public class ProfilActivity extends AppCompatActivity {
 
@@ -19,6 +23,28 @@ public class ProfilActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profil);
+
+        BottomNavigationView btmNavView = findViewById(R.id.btmNavigationView);
+
+        btmNavView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener(){
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.search:
+                        searchGymPT();
+                        break;
+
+                    case R.id.home:
+                        Intent MoveToHome = new Intent(ProfilActivity.this, MainActivity.class);
+                        startActivity(MoveToHome);
+                        break;
+
+                    case R.id.profile:
+                        break;
+                }
+                return true;
+            }
+        });
 
         if(getSupportActionBar() != null){
             getSupportActionBar().hide();

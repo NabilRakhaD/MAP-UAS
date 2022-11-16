@@ -14,9 +14,12 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 
 public class MainActivity extends AppCompatActivity {
     ImageView searchpic, homepic, profilepic;
@@ -35,6 +38,29 @@ public class MainActivity extends AppCompatActivity {
         String name = GoogleSignIn.getLastSignedInAccount(this).getDisplayName();
 
         HomeTitle.setText("Go Gym, " + name.split(" ", 3 )[0]);
+
+
+        BottomNavigationView btmNavView = findViewById(R.id.btmNavigationView);
+
+        btmNavView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener(){
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.search:
+                        searchGymPT();
+                        break;
+
+                    case R.id.home:
+                        break;
+
+                    case R.id.profile:
+                        Intent MoveToProfile = new Intent(MainActivity.this, ProfilActivity.class);
+                        startActivity(MoveToProfile);
+                        break;
+                }
+                return true;
+            }
+        });
 
     }
 

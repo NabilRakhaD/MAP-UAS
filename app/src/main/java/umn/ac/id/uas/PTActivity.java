@@ -13,12 +13,39 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
+
 public class PTActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ptactivity);
+
+        BottomNavigationView btmNavView = findViewById(R.id.btmNavigationView);
+
+        btmNavView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener(){
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.search:
+                        searchGymPT();
+                        break;
+
+                    case R.id.home:
+                        Intent MoveToHome = new Intent(PTActivity.this, MainActivity.class);
+                        startActivity(MoveToHome);
+                        break;
+
+                    case R.id.profile:
+                        Intent MoveToProfile = new Intent(PTActivity.this, ProfilActivity.class);
+                        startActivity(MoveToProfile);
+                        break;
+                }
+                return true;
+            }
+        });
 
         if(getSupportActionBar() != null){
             getSupportActionBar().hide();
@@ -58,24 +85,5 @@ public class PTActivity extends AppCompatActivity {
         });
 
         search.show();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.search:
-                searchGymPT();
-                break;
-            case R.id.home:
-                Intent MoveToHome = new Intent(PTActivity.this, MainActivity.class);
-                startActivity(MoveToHome);
-                break;
-
-            case R.id.profile:
-                Intent MoveToProfile = new Intent(PTActivity.this, ProfilActivity.class);
-                startActivity(MoveToProfile);
-                break;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }
