@@ -12,16 +12,45 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 public class DetailGymActivity extends AppCompatActivity {
 
+     TextView nama, tipe, jarak, review, membership, payment;
+     RadioGroup radioGroup;
+     RadioButton radioButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_gym);
+
+        Intent intent = getIntent();
+        Gym gym = (Gym) intent.getSerializableExtra("gym");
+
+        nama = findViewById(R.id.namagymDetailGym);
+        tipe = findViewById(R.id.tipegymDetailGym);
+        jarak = findViewById(R.id.jarakDetailGym);
+        review = findViewById(R.id.review);
+        membership = findViewById(R.id.membership);
+
+        nama.setText(gym.getNama());
+        tipe.setText(gym.getTipe());
+        jarak.setText(gym.getJarak());
+        review.setText(gym.getReview());
+
+        membership.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MembershipModal();
+            }
+        });
 
         BottomNavigationView btmNavView = findViewById(R.id.btmNavigationView);
 
@@ -47,6 +76,36 @@ public class DetailGymActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void MembershipModal() {
+
+        final Dialog membership = new Dialog(DetailGymActivity.this);
+
+        membership.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        membership.setContentView(R.layout.membershipmodal);
+        membership.setCancelable(true);
+
+        radioGroup = findViewById(R.id.radiogrupMember);
+        payment = findViewById(R.id.payment);
+
+        Window window = membership.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+
+        wlp.gravity = Gravity.BOTTOM;
+        window.setAttributes(wlp);
+
+//        payment.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                int selectedId = radioGroup.getCheckedRadioButtonId();
+//                radioButton = findViewById(selectedId);
+//                Toast.makeText(DetailGymActivity.this, "Anda memilih Membership " + radioButton.getText().toString(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
+
+        membership.show();
+    }
+
 
     protected void searchGymPT(){
         final Dialog search = new Dialog(DetailGymActivity.this);

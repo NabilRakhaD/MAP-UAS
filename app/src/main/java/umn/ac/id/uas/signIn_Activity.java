@@ -37,22 +37,6 @@ public class signIn_Activity extends AppCompatActivity {
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         gsc = GoogleSignIn.getClient(this, gso);
 
-        APIService.endpoint().getUser().enqueue(new Callback<UserModel>() {
-            @Override
-            public void onResponse(Call<UserModel> call, Response<UserModel> response) {
-                if(response.isSuccessful()){
-                    List<UserModel.User> user = response.body().getUsers();
-                    Log.i("tes", user.get(0).getFull_name());
-                }
-                Log.i("set2", "gagal");
-            }
-
-            @Override
-            public void onFailure(Call<UserModel> call, Throwable t) {
-                Log.i("tes", t.getMessage());
-            }
-        });
-
         if(getSupportActionBar() != null){
             getSupportActionBar().hide();
         }

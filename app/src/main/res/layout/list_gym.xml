@@ -3,17 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="130dp"
-        android:backgroundTint="#131825"
+        android:backgroundTint="#262a36"
+        android:layout_marginBottom="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintList"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -21,10 +23,12 @@
                 android:id="@+id/gympic"
                 android:layout_width="137dp"
                 android:layout_height="149dp"
+                android:layout_marginStart="16dp"
                 android:src="@drawable/goldgym"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"></ImageView>
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.473"></ImageView>
 
             <TextView
                 android:id="@+id/namagym"
@@ -81,11 +85,11 @@
                 android:gravity="end"
                 android:paddingEnd="10dp"
                 android:text="1"
-                android:textSize="15dp"
                 android:textColor="@color/white"
+                android:textSize="15dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.444"
+                app:layout_constraintHorizontal_bias="0.487"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/namagym"
                 app:layout_constraintVertical_bias="0.666"></TextView>

@@ -3,6 +3,7 @@ package umn.ac.id.uas;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
@@ -25,12 +26,24 @@ public class GymActivity extends AppCompatActivity {
     private ListGymAdapter gymadap;
     public ArrayList<Gym>listgym = new ArrayList<>();
 
+    public void dataGym(){
+        listgym.add(new Gym("Gold Gym", "Gading Serpong", "200 review", "0.5 km away",
+                "Fitness, Yoga", R.drawable.goldgym, 5, 30000, 50000));
+        listgym.add(new Gym("HotShape Gym", "Gading Serpong 2", "300 review", "0.5 km away",
+                "Fitness, Zumba",R.drawable.hotshape, 4, 30000, 50000));
+    }
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gym);
+        dataGym();
+
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        gymadap = new ListGymAdapter(this, listgym);
+        recyclerView.setAdapter(gymadap);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         BottomNavigationView btmNavView = findViewById(R.id.btmNavigationView);
 

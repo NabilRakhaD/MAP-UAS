@@ -7,7 +7,7 @@
     tools:context=".DetailGymActivity">
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigationView"
+        android:id="@+id/btmNavigationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
@@ -19,7 +19,7 @@
 
     <ImageView
         android:id="@+id/imageView5"
-        android:layout_width="410dp"
+        android:layout_width="fill_parent"
         android:layout_height="200dp"
         android:scaleType="centerCrop"
         android:src="@drawable/goldgym"
@@ -58,7 +58,7 @@
             app:layout_constraintTop_toTopOf="parent"></TextView>
 
         <TextView
-            android:id="@+id/tipegymPT"
+            android:id="@+id/tipegymDetailGym"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -80,7 +80,7 @@
             android:textSize="15dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.965"
-            app:layout_constraintStart_toEndOf="@+id/tipegymPT"
+            app:layout_constraintStart_toEndOf="@+id/tipegymDetailGym"
             app:layout_constraintTop_toBottomOf="@+id/namagymDetailGym"></TextView>
 
         <ImageView
@@ -91,7 +91,7 @@
             android:layout_marginTop="20dp"
             android:src="@drawable/ic_baseline_star_24"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tipegymPT"></ImageView>
+            app:layout_constraintTop_toBottomOf="@+id/tipegymDetailGym"></ImageView>
 
         <TextView
             android:id="@+id/review"
@@ -103,8 +103,23 @@
             android:textColor="@color/white"
             android:textSize="15dp"
             app:layout_constraintStart_toEndOf="@+id/imageView6"
-            app:layout_constraintTop_toBottomOf="@+id/tipegymPT"></TextView>
+            app:layout_constraintTop_toBottomOf="@+id/tipegymDetailGym"></TextView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/membership"
+        android:layout_width="340dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="108dp"
+        android:background="@drawable/roundedbtn"
+        android:gravity="center"
+        android:text="Get Membership"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
