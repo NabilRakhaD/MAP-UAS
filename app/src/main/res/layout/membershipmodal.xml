@@ -3,22 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <TextView
-        android:id="@+id/bekgronmembership"
-        android:layout_width="match_parent"
-        android:layout_height="500dp"
-        android:background="@drawable/menu"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+    android:layout_height="wrap_content"
+    android:background="@drawable/menu">
 
     <TextView
         android:id="@+id/titleMembership"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
         android:text="Pick Your Membership"
         android:textColor="@color/white"
         android:textSize="25dp"
@@ -26,7 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/bekgronmembership" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <RadioGroup
         android:id="@+id/radiogrupMember"
@@ -53,6 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="48dp"
+                android:textSize="20dp"
                 android:text="M O N T H L Y"
                 android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
@@ -63,11 +55,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="48dp"
+                android:textSize="20dp"
                 android:textColor="@color/white"
                 android:text="Y E A R L Y"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/monthly" />
-
     </RadioGroup>
 
     <TextView

@@ -46,7 +46,7 @@
         app:layout_constraintTop_toBottomOf="@+id/ketSignIn"></TextView>
 
     <EditText
-        android:id="@+id/username"
+        android:id="@+id/email"
         android:layout_width="300dp"
         android:layout_height="30dp"
         android:layout_marginStart="12dp"
@@ -71,7 +71,7 @@
         app:layout_constraintTop_toBottomOf="@+id/roundedinput1"></TextView>
 
     <EditText
-        android:id="@+id/email"
+        android:id="@+id/password"
         android:layout_width="300dp"
         android:layout_height="30dp"
         android:layout_marginStart="12dp"

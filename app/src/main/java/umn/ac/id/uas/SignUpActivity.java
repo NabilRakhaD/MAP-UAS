@@ -1,14 +1,33 @@
 package umn.ac.id.uas;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class SignUpActivity extends AppCompatActivity {
     TextView signIn, btnLets;
+    EditText username, email, phone, pass;
+    ProgressDialog progressDialog;
+    RadioGroup radioGroup;
+    RadioButton radioButton;
+    private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,8 +37,19 @@ public class SignUpActivity extends AppCompatActivity {
             getSupportActionBar().hide();
         }
 
+        username = findViewById(R.id.username);
+        email = findViewById(R.id.email);
+        phone = findViewById(R.id.Phonenum);
+        pass = findViewById(R.id.pass);
+        radioGroup = findViewById(R.id.radiogrup);
         signIn = findViewById(R.id.SignIn);
         btnLets = findViewById(R.id.btnLets);
+
+        mAuth = FirebaseAuth.getInstance();
+        progressDialog = new ProgressDialog(SignUpActivity.this);
+        progressDialog.setTitle("Loading");
+        progressDialog.setMessage("Tunggu Sebentar");
+        progressDialog.setCancelable(false);
 
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -32,11 +62,62 @@ public class SignUpActivity extends AppCompatActivity {
         btnLets.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent MoveToMainActivity = new Intent(SignUpActivity.this, MainActivity.class);
-                startActivity(MoveToMainActivity);
+                int SelectedId = radioGroup.getCheckedRadioButtonId();
+                radioButton = (RadioButton) findViewById(SelectedId);
+                String radioButtonText = radioButton.getText().toString();
+
+                if(username.getText().length()>0 && email.getText().length()>0 && pass.getText().length()>0 && phone.getText().length()>0 && SelectedId != -1){
+                    register(username.getText().toString(), email.getText().toString(), pass.getText().toString());
+                    Toast.makeText(SignUpActivity.this, "Berhasil Masuk", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(SignUpActivity.this, "Silahkan isi semua data!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
 
+    private void register(String username, String email, String pass) {
+        progressDialog.show();
+        mAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful() && task.getResult()!=null){
+                    FirebaseUser firebaseUser = task.getResult().getUser();
+                    if(firebaseUser!=null){
+                        UserProfileChangeRequest request = new UserProfileChangeRequest.Builder()
+                                .setDisplayName(username)
+                                .build();
+                        firebaseUser.updateProfile(request).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                reload();
+                            }
+                        });
+                    }else{
+                        Toast.makeText(SignUpActivity.this, "Sign Up Gagal", Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    Toast.makeText(SignUpActivity.this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
 
+    private  void reload(){
+        Boolean isGoogle = false;
+        Intent MoveToMainActivity = new Intent(getApplicationContext(), MainActivity.class);
+        MoveToMainActivity.putExtra("isGoogle", isGoogle);
+        startActivity(MoveToMainActivity);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null){
+            reload();
+        }
+    }
+    
 }

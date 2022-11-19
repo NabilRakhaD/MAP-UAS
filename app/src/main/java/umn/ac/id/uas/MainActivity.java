@@ -3,6 +3,7 @@ package umn.ac.id.uas;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.viewpager.widget.ViewPager;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -20,10 +21,17 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    ImageView searchpic, homepic, profilepic;
     TextView HomeTitle;
+    ViewPager viewPager;
+    ArrayList<Gym> listgymMain = new ArrayList<>();
+    MainGymAdapter maingymadap;
+    private FirebaseUser firebaseUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,10 +42,26 @@ public class MainActivity extends AppCompatActivity {
         }
 
         HomeTitle = findViewById(R.id.HomeTitle);
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        String name = GoogleSignIn.getLastSignedInAccount(this).getDisplayName();
+        Intent intent =  getIntent();
+        boolean isGoogle = intent.getBooleanExtra("isGoogle", false);
 
-        HomeTitle.setText("Go Gym, " + name.split(" ", 3 )[0]);
+        if(isGoogle){
+            String name = GoogleSignIn.getLastSignedInAccount(this).getDisplayName();
+            HomeTitle.setText("Go Gym, " + name.split(" ", 3 )[0]);
+            Toast.makeText(this, "masuk gugel", Toast.LENGTH_SHORT).show();
+        }else{
+            if(firebaseUser!=null){
+                HomeTitle.setText(firebaseUser.getDisplayName());
+                Toast.makeText(this, "masuk firebase", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        viewPager = findViewById(R.id.viewpager);
+        dataGym();
+        maingymadap = new MainGymAdapter(this, listgymMain);
+        viewPager.setAdapter(maingymadap);
 
 
         BottomNavigationView btmNavView = findViewById(R.id.btmNavigationView);
@@ -62,6 +86,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void dataGym(){
+        listgymMain.add(new Gym("Gold Gym", "Gading Serpong", "200 review", "0.5 km away",
+                "Fitness, Yoga", R.drawable.goldgym, 5, 30000, 50000));
+        listgymMain.add(new Gym("HotShape Gym", "Gading Serpong 2", "300 review", "0.5 km away",
+                "Fitness, Zumba",R.drawable.hotshape, 4, 30000, 50000));
+        listgymMain.add(new Gym("Progenex Gym", "Gading Serpong 2", "300 review", "0.5 km away",
+                "Fitness, Zumba",R.drawable.progenex, 4, 30000, 50000));
     }
 
     protected void searchGymPT(){

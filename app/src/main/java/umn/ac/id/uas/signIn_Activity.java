@@ -1,7 +1,9 @@
 package umn.ac.id.uas;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,7 +16,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.List;
 
@@ -24,7 +30,10 @@ import retrofit2.Response;
 import umn.ac.id.uas.retrofit.APIService;
 
 public class signIn_Activity extends AppCompatActivity {
-    TextView signUp, btnReady, title;
+    TextView signUp, btnReady, title, email, password;
+    private FirebaseAuth mAuth;
+    Boolean isGoogle;
+    ProgressDialog progressDialog;
     GoogleSignInOptions gso;
     GoogleSignInClient gsc;
     GoogleSignInAccount acct = null;
@@ -41,8 +50,16 @@ public class signIn_Activity extends AppCompatActivity {
             getSupportActionBar().hide();
         }
 
+        email = findViewById(R.id.email);
+        password = findViewById(R.id.password);
         signUp = findViewById(R.id.SignUp);
         btnReady = findViewById(R.id.btnReady);
+
+        mAuth = FirebaseAuth.getInstance();
+        progressDialog = new ProgressDialog(signIn_Activity.this);
+        progressDialog.setTitle("Loading");
+        progressDialog.setMessage("Tunggu Sebentar");
+        progressDialog.setCancelable(false);
 
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,8 +72,11 @@ public class signIn_Activity extends AppCompatActivity {
         btnReady.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent MoveToMainActivity = new Intent(signIn_Activity.this, MainActivity.class);
-                startActivity(MoveToMainActivity);
+                if(email.getText().length()>0 && password.getText().length()>0){
+                    login(email.getText().toString(), password.getText().toString());
+                }else{
+                    Toast.makeText(signIn_Activity.this, "Isi semua data terlebih dahulu!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -65,6 +85,40 @@ public class signIn_Activity extends AppCompatActivity {
         loginWithGoogleButton.setOnClickListener(v -> {
             loginWithGoogle();
         });
+    }
+
+    private void login(String email, String pass) {
+        mAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful() && task.getResult()!=null){
+                    if(task.getResult().getUser()!=null){
+                        reload();
+                    }else{
+                        Toast.makeText(signIn_Activity.this, "Sign In Gagal", Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    Toast.makeText(signIn_Activity.this, "Sign In Gagal", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private  void reload(){
+        isGoogle = false;
+        Intent MoveToMainActivity2 = new Intent(this,MainActivity.class);
+        MoveToMainActivity2.putExtra("isGoogle", isGoogle);
+        startActivity(MoveToMainActivity2);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null){
+            reload();
+        }
     }
 
     private void loginWithGoogle() {
@@ -82,7 +136,9 @@ public class signIn_Activity extends AppCompatActivity {
             try {
                 task.getResult(ApiException.class);
                 acct = GoogleSignIn.getLastSignedInAccount(this);
+                isGoogle = true;
                 Intent MoveToMainActivity2 = new Intent(this,MainActivity.class);
+                MoveToMainActivity2.putExtra("isGoogle", isGoogle);
                 startActivity(MoveToMainActivity2);
 
                 Toast.makeText(this, "Welcome, " + acct.getDisplayName(), Toast.LENGTH_SHORT).show();

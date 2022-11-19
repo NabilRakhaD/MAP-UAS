@@ -85,8 +85,8 @@ public class DetailGymActivity extends AppCompatActivity {
         membership.setContentView(R.layout.membershipmodal);
         membership.setCancelable(true);
 
-        radioGroup = findViewById(R.id.radiogrupMember);
-        payment = findViewById(R.id.payment);
+        radioGroup = membership.findViewById(R.id.radiogrupMember);
+        payment = membership.findViewById(R.id.payment);
 
         Window window = membership.getWindow();
         WindowManager.LayoutParams wlp = window.getAttributes();
@@ -94,14 +94,15 @@ public class DetailGymActivity extends AppCompatActivity {
         wlp.gravity = Gravity.BOTTOM;
         window.setAttributes(wlp);
 
-//        payment.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                int selectedId = radioGroup.getCheckedRadioButtonId();
-//                radioButton = findViewById(selectedId);
-//                Toast.makeText(DetailGymActivity.this, "Anda memilih Membership " + radioButton.getText().toString(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
+        payment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int selectedId = radioGroup.getCheckedRadioButtonId();
+                radioButton = membership.findViewById(selectedId);
+                Toast.makeText(DetailGymActivity.this, "Anda memilih Membership " + radioButton.getText().toString(), Toast.LENGTH_SHORT).show();
+                membership.hide();
+            }
+        });
 
         membership.show();
     }

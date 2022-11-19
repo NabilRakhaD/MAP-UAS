@@ -12,17 +12,37 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class ProfilActivity extends AppCompatActivity {
+    FirebaseUser firebaseUser;
+    TextView logout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profil);
+
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        logout = findViewById(R.id.logout);
+
+
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(ProfilActivity.this, signIn_Activity.class));
+                finish();
+            }
+        });
 
         BottomNavigationView btmNavView = findViewById(R.id.btmNavigationView);
 
@@ -84,22 +104,5 @@ public class ProfilActivity extends AppCompatActivity {
         });
 
         search.show();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.search:
-                searchGymPT();
-                break;
-            case R.id.home:
-                Intent MoveToHome = new Intent(ProfilActivity.this, MainActivity.class);
-                startActivity(MoveToHome);
-                break;
-
-            case R.id.profile:
-                break;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }

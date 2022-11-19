@@ -31,6 +31,8 @@ public class GymActivity extends AppCompatActivity {
                 "Fitness, Yoga", R.drawable.goldgym, 5, 30000, 50000));
         listgym.add(new Gym("HotShape Gym", "Gading Serpong 2", "300 review", "0.5 km away",
                 "Fitness, Zumba",R.drawable.hotshape, 4, 30000, 50000));
+        listgym.add(new Gym("Progenex Gym", "Gading Serpong 2", "300 review", "0.5 km away",
+                "Fitness, Zumba",R.drawable.progenex, 4, 30000, 50000));
     }
 
 

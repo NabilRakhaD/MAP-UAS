@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PTActivity">
+    tools:context=".GymActivity">
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/btmNavigationView"
@@ -17,4 +17,93 @@
         app:menu="@menu/btnnavigationmenu"
         android:layout_marginBottom="20dp">
     </com.google.android.material.bottomnavigation.BottomNavigationView>
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="230dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/gym"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></ImageView>
+
+    <TextView
+        android:id="@+id/bekgron"
+        android:layout_width="match_parent"
+        android:layout_height="560dp"
+        android:background="@drawable/menu"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"></TextView>
+
+    <TextView
+        android:id="@+id/PersonalGimmy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:text="Personal Gimmy"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/bekgron"></TextView>
+
+    <TextView
+        android:id="@+id/sortRating"
+        android:layout_width="75dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/rounded"
+        android:gravity="end"
+        android:paddingEnd="10dp"
+        android:paddingTop="2dp"
+        android:text="Rating"
+        android:textColor="@color/white"
+        android:textSize="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/PersonalGimmy"></TextView>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:src="@drawable/ic_baseline_star_rate_242"
+        app:layout_constraintBottom_toBottomOf="@+id/sortRating"
+        app:layout_constraintStart_toStartOf="@+id/sortRating"
+        app:layout_constraintTop_toTopOf="@+id/sortRating"></ImageView>
+
+    <TextView
+        android:id="@+id/sortPrice"
+        android:layout_width="65dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/rounded"
+        android:gravity="end"
+        android:paddingEnd="10dp"
+        android:paddingTop="2dp"
+        android:text="Price"
+        android:textColor="@color/white"
+        android:textSize="15dp"
+        app:layout_constraintStart_toEndOf="@+id/sortRating"
+        app:layout_constraintTop_toBottomOf="@+id/PersonalGimmy"></TextView>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:src="@drawable/ic_baseline_attach_money_24"
+        app:layout_constraintBottom_toBottomOf="@+id/sortPrice"
+        app:layout_constraintStart_toStartOf="@+id/sortPrice"
+        app:layout_constraintTop_toTopOf="@+id/sortPrice"></ImageView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="450dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"></androidx.recyclerview.widget.RecyclerView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
