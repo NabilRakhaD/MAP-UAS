@@ -107,43 +107,70 @@
         app:layout_constraintTop_toTopOf="@+id/backgroundlist"></TextView>
 
     <TextView
+        android:id="@+id/emailProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:text="Email"
+        android:textColor="@color/white"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="@+id/backgroundlist"
+        app:layout_constraintHorizontal_bias="0.312"
+        app:layout_constraintStart_toEndOf="@+id/emailtitle"
+        app:layout_constraintTop_toTopOf="@+id/backgroundlist"></TextView>
+
+    <TextView
         android:id="@+id/Phonetitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="60dp"
         android:text="Phone"
         android:textColor="@color/white"
         android:textSize="15dp"
         app:layout_constraintEnd_toEndOf="@+id/backgroundlist"
         app:layout_constraintHorizontal_bias="0.086"
         app:layout_constraintStart_toStartOf="@+id/backgroundlist"
-        app:layout_constraintTop_toTopOf="@+id/backgroundlist"></TextView>
+        app:layout_constraintTop_toTopOf="@+id/emailtitle"></TextView>
+
+    <TextView
+        android:id="@+id/phoneProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:text="Phone"
+        android:textColor="@color/white"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="@+id/backgroundlist"
+        app:layout_constraintHorizontal_bias="0.301"
+        app:layout_constraintStart_toEndOf="@+id/Phonetitle"
+        app:layout_constraintTop_toTopOf="@+id/emailProfile"></TextView>
 
     <TextView
         android:id="@+id/Gendertitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="116dp"
+        android:layout_marginTop="60dp"
         android:text="Gender"
         android:textColor="@color/white"
         android:textSize="15dp"
         app:layout_constraintEnd_toEndOf="@+id/backgroundlist"
         app:layout_constraintHorizontal_bias="0.088"
         app:layout_constraintStart_toStartOf="@+id/backgroundlist"
-        app:layout_constraintTop_toTopOf="@+id/backgroundlist"></TextView>
+        app:layout_constraintTop_toTopOf="@+id/Phonetitle"></TextView>
+
 
     <TextView
-        android:id="@+id/Addresstitle"
+        android:id="@+id/GenderProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="160dp"
-        android:text="Address"
+        android:layout_marginTop="60dp"
+        android:text="Gender"
         android:textColor="@color/white"
         android:textSize="15dp"
         app:layout_constraintEnd_toEndOf="@+id/backgroundlist"
-        app:layout_constraintHorizontal_bias="0.09"
-        app:layout_constraintStart_toStartOf="@+id/backgroundlist"
-        app:layout_constraintTop_toTopOf="@+id/backgroundlist"></TextView>
+        app:layout_constraintHorizontal_bias="0.29"
+        app:layout_constraintStart_toEndOf="@+id/Gendertitle"
+        app:layout_constraintTop_toTopOf="@+id/phoneProfile"></TextView>
 
     <TextView
         android:id="@+id/ManageMember"

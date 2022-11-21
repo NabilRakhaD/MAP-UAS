@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -15,11 +16,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SignUpActivity extends AppCompatActivity {
     TextView signIn, btnLets;
@@ -27,7 +34,10 @@ public class SignUpActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
     RadioGroup radioGroup;
     RadioButton radioButton;
+    String radioButtonText;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,10 +74,10 @@ public class SignUpActivity extends AppCompatActivity {
             public void onClick(View view) {
                 int SelectedId = radioGroup.getCheckedRadioButtonId();
                 radioButton = (RadioButton) findViewById(SelectedId);
-                String radioButtonText = radioButton.getText().toString();
+                radioButtonText = radioButton.getText().toString();
 
                 if(username.getText().length()>0 && email.getText().length()>0 && pass.getText().length()>0 && phone.getText().length()>0 && SelectedId != -1){
-                    register(username.getText().toString(), email.getText().toString(), pass.getText().toString());
+                    register(username.getText().toString(), email.getText().toString(), pass.getText().toString(), phone.getText().toString(), radioButtonText);
                     Toast.makeText(SignUpActivity.this, "Berhasil Masuk", Toast.LENGTH_SHORT).show();
                 }else{
                     Toast.makeText(SignUpActivity.this, "Silahkan isi semua data!", Toast.LENGTH_SHORT).show();
@@ -76,13 +86,14 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
-    private void register(String username, String email, String pass) {
+    private void register(String username, String email, String pass, String phone, String gender) {
         progressDialog.show();
         mAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful() && task.getResult()!=null){
                     FirebaseUser firebaseUser = task.getResult().getUser();
+                    Log.d("uid", firebaseUser.getUid());
                     if(firebaseUser!=null){
                         UserProfileChangeRequest request = new UserProfileChangeRequest.Builder()
                                 .setDisplayName(username)
@@ -96,7 +107,28 @@ public class SignUpActivity extends AppCompatActivity {
                     }else{
                         Toast.makeText(SignUpActivity.this, "Sign Up Gagal", Toast.LENGTH_SHORT).show();
                     }
-                }else{
+
+                    Map<String, Object> user = new HashMap<>();
+                    user.put("Nama", username);
+                    user.put("Jenis Kelamin", gender);
+                    user.put("PhoneNumber", phone);
+
+                    db.collection("User").document(firebaseUser.getUid())
+                            .set(user)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d("TAG", "DocumentSnapshot successfully written!");
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w("TAG", "Error writing document", e);
+                                }
+                            });
+
+                } else{
                     Toast.makeText(SignUpActivity.this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
@@ -104,10 +136,8 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private  void reload(){
-        Boolean isGoogle = false;
-        Intent MoveToMainActivity = new Intent(getApplicationContext(), MainActivity.class);
-        MoveToMainActivity.putExtra("isGoogle", isGoogle);
-        startActivity(MoveToMainActivity);
+        Intent MainActivity = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(MainActivity);
     }
 
     @Override

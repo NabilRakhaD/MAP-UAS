@@ -17,21 +17,23 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import umn.ac.id.uas.retrofit.APIService;
 
 public class signIn_Activity extends AppCompatActivity {
     TextView signUp, btnReady, title, email, password;
     private FirebaseAuth mAuth;
+    FirebaseUser firebaseUser;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
     Boolean isGoogle;
     ProgressDialog progressDialog;
     GoogleSignInOptions gso;
@@ -60,6 +62,13 @@ public class signIn_Activity extends AppCompatActivity {
         progressDialog.setTitle("Loading");
         progressDialog.setMessage("Tunggu Sebentar");
         progressDialog.setCancelable(false);
+
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        Intent intent = getIntent();
+        String username = intent.getStringExtra("Nama");
+        String gender = intent.getStringExtra("Gender");
+        String phonenum = intent.getStringExtra("PhoneNum");
 
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
