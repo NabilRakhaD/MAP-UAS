@@ -138,7 +138,6 @@ public class ProfilActivity extends AppCompatActivity {
                                     genderProfile.setText(document.getString("Jenis Kelamin"));
                                     phoneProfile.setText(document.getString("PhoneNumber"));
                                 }
-
                             }
                         } else {
                             Log.w("TAG2", "Error getting documents.", task.getException());

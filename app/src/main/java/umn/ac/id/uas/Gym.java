@@ -3,19 +3,36 @@ package umn.ac.id.uas;
 import java.io.Serializable;
 
 public class Gym implements Serializable {
-    private String nama, lokasi, review, jarak, tipe;
-    private int rating, teenagePrice, adultPrice, gympic;
+    private String nama, lokasi, tipe;
+    private int rating, teenagePrice, adultPrice, gympic, review;
+    private double latitude, longitude;
 
-    public Gym(String nama, String lokasi, String review, String jarak, String tipe, int gympic, int rating, int teenagePrice, int adultPrice){
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public Gym(String nama, String lokasi, int review, String tipe, int rating, int teenagePrice, int adultPrice, double latitude, double longitude){
         this.nama = nama;
         this.lokasi = lokasi;
         this.review = review;
-        this.jarak = jarak;
         this.tipe = tipe;
-        this.gympic = gympic;
         this.rating = rating;
         this.teenagePrice = teenagePrice;
         this.adultPrice = adultPrice;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public String getNama() {
@@ -34,20 +51,12 @@ public class Gym implements Serializable {
         this.lokasi = lokasi;
     }
 
-    public String getReview() {
+    public int getReview() {
         return review;
     }
 
-    public void setReview(String review) {
+    public void setReview(int review) {
         this.review = review;
-    }
-
-    public String getJarak() {
-        return jarak;
-    }
-
-    public void setJarak(String jarak) {
-        this.jarak = jarak;
     }
 
     public String getTipe() {

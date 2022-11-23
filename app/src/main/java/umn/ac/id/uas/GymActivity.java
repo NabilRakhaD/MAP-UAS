@@ -1,14 +1,22 @@
 package umn.ac.id.uas;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,36 +24,33 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class GymActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ListGymAdapter gymadap;
     public ArrayList<Gym>listgym = new ArrayList<>();
-
-    public void dataGym(){
-        listgym.add(new Gym("Gold Gym", "Gading Serpong", "200 review", "0.5 km away",
-                "Fitness, Yoga", R.drawable.goldgym, 5, 30000, 50000));
-        listgym.add(new Gym("HotShape Gym", "Gading Serpong 2", "300 review", "0.5 km away",
-                "Fitness, Zumba",R.drawable.hotshape, 4, 30000, 50000));
-        listgym.add(new Gym("Progenex Gym", "Gading Serpong 2", "300 review", "0.5 km away",
-                "Fitness, Zumba",R.drawable.progenex, 4, 30000, 50000));
-    }
-
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gym);
-        dataGym();
 
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-        gymadap = new ListGymAdapter(this, listgym);
-        recyclerView.setAdapter(gymadap);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        getDataGym();
 
         BottomNavigationView btmNavView = findViewById(R.id.btmNavigationView);
 
@@ -75,6 +80,33 @@ public class GymActivity extends AppCompatActivity {
             getSupportActionBar().hide();
         }
     }
+
+
+    public void getDataGym(){
+        db.collection("Gym")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for(QueryDocumentSnapshot document : task.getResult()){
+                                listgym.add(new Gym(document.getString("Nama"), document.getString("Address"), Integer.parseInt(document.get("Review").toString()),
+                                        document.getString("Tipe"), Integer.parseInt(document.get("Rating").toString()),
+                                        Integer.parseInt(document.get("PriceRemaja").toString()), Integer.parseInt(document.get("PriceDewasa").toString()),
+                                        document.getGeoPoint("TitikGeo").getLatitude(), document.getGeoPoint("TitikGeo").getLongitude()));
+                            }
+
+                            recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+                            gymadap = new ListGymAdapter(GymActivity.this, listgym);
+                            recyclerView.setAdapter(gymadap);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(GymActivity.this));
+                        } else {
+                            Log.w("TAG2", "Error getting documents.", task.getException());
+                        }
+                    }
+                });
+    }
+
 
     protected void searchGymPT(){
         final Dialog search = new Dialog(GymActivity.this);

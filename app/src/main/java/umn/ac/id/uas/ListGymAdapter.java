@@ -1,7 +1,10 @@
 package umn.ac.id.uas;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,13 +18,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.w3c.dom.Text;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class ListGymAdapter extends RecyclerView.Adapter<ListGymAdapter.ListGymHolder>{
+    double dLatitude, dLongitude, a, c, dDistance, meterConversion = 1609, myDistance, earthRadius = 3958.75;
+    double latitude, longitude;
     private LayoutInflater inflater;
     public Context context;
     public ArrayList<Gym> mlistgym;
     public ListGymAdapter(Context context, ArrayList<Gym>listgym){
+        this.context = context;
         inflater = LayoutInflater.from(context);
         mlistgym = listgym;
     }
@@ -31,6 +38,10 @@ public class ListGymAdapter extends RecyclerView.Adapter<ListGymAdapter.ListGymH
     public ListGymHolder onCreateViewHolder(@NonNull ViewGroup parent, int position){
         View v = inflater.inflate(R.layout.list_gym, parent, false);
 
+        SharedPreferences sharedPreferences = context.getSharedPreferences("myKey", MODE_PRIVATE);
+        latitude = Double.parseDouble(sharedPreferences.getString("latitude",""));
+        longitude = Double.parseDouble(sharedPreferences.getString("longitude",""));
+
         return new ListGymHolder(v, this);
     }
 
@@ -38,7 +49,7 @@ public class ListGymAdapter extends RecyclerView.Adapter<ListGymAdapter.ListGymH
     public void onBindViewHolder(@NonNull ListGymHolder holder, int position){
         holder.nama.setText(mlistgym.get(position).getNama());
         holder.gympic.setImageResource(mlistgym.get(position).getGympic());
-        holder.jarak.setText(mlistgym.get(position).getJarak());
+        holder.jarak.setText(String.valueOf(getJarak(mlistgym.get(position), latitude, longitude)));
         holder.rating.setText(String.valueOf(mlistgym.get(position).getRating()));
         holder.teenagePrice.setText(String.valueOf(mlistgym.get(position).getTeenagePrice()));
         holder.tipe.setText(mlistgym.get(position).getTipe());
@@ -76,6 +87,19 @@ public class ListGymAdapter extends RecyclerView.Adapter<ListGymAdapter.ListGymH
             });
 
         }
+    }
+
+    private double getJarak(Gym g ,double currLat, double currLong) {
+        dLatitude = Math.toRadians(g.getLatitude() - currLat);
+        dLongitude = Math.toRadians(g.getLongitude() - currLong);
+        a = (Math.sin(dLatitude/2.0) * Math.sin(dLatitude/2.0) +
+                Math.sin(dLongitude/2.0) * Math.sin(dLongitude/2.0)) *
+                Math.cos(Math.toRadians(currLat)) *
+                Math.cos(Math.toRadians(g.getLatitude()));
+        c = 2.0 * Math.atan2(Math.sqrt(a), Math.sqrt(1.0-a));
+        dDistance = earthRadius * c;
+        myDistance = dDistance * meterConversion;
+        return Double.parseDouble(new DecimalFormat("#.##").format(myDistance/1000.0));
     }
 
 }

@@ -1,13 +1,21 @@
 package umn.ac.id.uas;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
 import androidx.viewpager.widget.ViewPager;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,50 +27,66 @@ import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+    double longitude, latitude;
+    ArrayList<Double> haversine = new ArrayList<>();
     TextView HomeTitle;
     ViewPager viewPager;
     ArrayList<Gym> listgymMain = new ArrayList<>();
     MainGymAdapter maingymadap;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseUser firebaseUser;
+    private FusedLocationProviderClient locationProviderClient;
+
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if(getSupportActionBar() != null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
-
+        //Title
         HomeTitle = findViewById(R.id.HomeTitle);
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        Intent intent =  getIntent();
+        Intent intent = getIntent();
         boolean isGoogle = intent.getBooleanExtra("isGoogle", false);
 
-        if(isGoogle){
+        if (isGoogle) {
             String name = GoogleSignIn.getLastSignedInAccount(this).getDisplayName();
-            HomeTitle.setText("Go Gym, " + name.split(" ", 3 )[0]);
+            HomeTitle.setText("Go Gym, " + name.split(" ", 3)[0]);
             Toast.makeText(this, "masuk gugel", Toast.LENGTH_SHORT).show();
-        }else{
-            if(firebaseUser!=null){
+        } else {
+            if (firebaseUser != null) {
                 HomeTitle.setText(firebaseUser.getDisplayName());
                 Toast.makeText(this, "masuk firebase", Toast.LENGTH_SHORT).show();
             }
         }
 
-        viewPager = findViewById(R.id.viewpager);
-        dataGym();
-        maingymadap = new MainGymAdapter(this, listgymMain);
-        viewPager.setAdapter(maingymadap);
+        //Get Location
+        locationProviderClient = LocationServices.getFusedLocationProviderClient(MainActivity.this);
 
+        //Get Data Gym
+        getDataGym();
 
         BottomNavigationView btmNavView = findViewById(R.id.btmNavigationView);
 
@@ -85,16 +109,81 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-
     }
 
-    public void dataGym(){
-        listgymMain.add(new Gym("Gold Gym", "Gading Serpong", "200 review", "0.5 km away",
-                "Fitness, Yoga", R.drawable.goldgym, 5, 30000, 50000));
-        listgymMain.add(new Gym("HotShape Gym", "Gading Serpong 2", "300 review", "0.5 km away",
-                "Fitness, Zumba",R.drawable.hotshape, 4, 30000, 50000));
-        listgymMain.add(new Gym("Progenex Gym", "Gading Serpong 2", "300 review", "0.5 km away",
-                "Fitness, Zumba",R.drawable.progenex, 4, 30000, 50000));
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == 10){
+            if (ActivityCompat.checkSelfPermission(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                    ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Lokasi tidak diaktifkan", Toast.LENGTH_SHORT).show();
+            }else {
+                getLocation();
+            }
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void getLocation() {
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION},10);
+        }else {
+            locationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+                @Override
+                public void onSuccess(Location location) {
+                    if(location!=null){
+                        latitude = location.getLatitude();
+                        longitude = location.getLongitude();
+
+                        SharedPreferences sharedPref = getSharedPreferences("myKey", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPref.edit();
+                        editor.putString("latitude", String.valueOf(latitude));
+                        editor.putString("longitude", String.valueOf(longitude));
+                        editor.commit();
+                    }
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(MainActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
+    public void getDataGym(){
+        db.collection("Gym")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for(QueryDocumentSnapshot document : task.getResult()){
+                                listgymMain.add(new Gym(document.getString("Nama"), document.getString("Address"), Integer.parseInt(document.get("Review").toString()),
+                                        document.getString("Tipe"), Integer.parseInt(document.get("Rating").toString()),
+                                        Integer.parseInt(document.get("PriceRemaja").toString()), Integer.parseInt(document.get("PriceDewasa").toString()),
+                                        document.getGeoPoint("TitikGeo").getLatitude(), document.getGeoPoint("TitikGeo").getLongitude()));
+                            }
+                            //Get User loc
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                getLocation();
+                            }
+
+                            viewPager = findViewById(R.id.viewpager);
+                            maingymadap = new MainGymAdapter(MainActivity.this, listgymMain);
+                            viewPager.setAdapter(maingymadap);
+                        } else {
+                            Log.w("TAG2", "Error getting documents.", task.getException());
+                        }
+                    }
+                });
     }
 
     protected void searchGymPT(){
@@ -130,22 +219,5 @@ public class MainActivity extends AppCompatActivity {
         });
 
         search.show();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.search:
-                searchGymPT();
-                break;
-            case R.id.home:
-                break;
-
-            case R.id.profile:
-                Intent MoveToProfile = new Intent(MainActivity.this, ProfilActivity.class);
-                startActivity(MoveToProfile);
-                break;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }

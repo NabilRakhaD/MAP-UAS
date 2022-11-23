@@ -42,8 +42,8 @@ public class DetailGymActivity extends AppCompatActivity {
 
         nama.setText(gym.getNama());
         tipe.setText(gym.getTipe());
-        jarak.setText(gym.getJarak());
-        review.setText(gym.getReview());
+//        jarak.setText(gym.getJarak());
+        review.setText(String.valueOf(gym.getReview()));
 
         membership.setOnClickListener(new View.OnClickListener() {
             @Override
