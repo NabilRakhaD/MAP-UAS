@@ -174,7 +174,7 @@
                 android:layout_marginTop="32dp"
                 android:text="Address"
                 android:textColor="@color/white"
-                android:textSize="13dp"
+                android:textSize="10dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/titleaddressGymDetail" />
         </androidx.constraintlayout.widget.ConstraintLayout>

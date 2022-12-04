@@ -62,7 +62,7 @@ public class MainGymAdapter extends PagerAdapter {
         Gym gym = listgymMain.get(position);
         //image.setImageResource(gym.getGympic());
         nama.setText(gym.getNama());
-        jarak.setText(String.valueOf(getJarak(listgymMain.get(position), latitude, longitude)));
+        jarak.setText(String.valueOf(getJarak(listgymMain.get(position), latitude, longitude)) + " km away");
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override

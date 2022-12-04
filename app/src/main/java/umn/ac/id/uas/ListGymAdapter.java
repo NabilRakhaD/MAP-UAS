@@ -49,9 +49,9 @@ public class ListGymAdapter extends RecyclerView.Adapter<ListGymAdapter.ListGymH
     public void onBindViewHolder(@NonNull ListGymHolder holder, int position){
         holder.nama.setText(mlistgym.get(position).getNama());
         holder.gympic.setImageResource(mlistgym.get(position).getGympic());
-        holder.jarak.setText(String.valueOf(getJarak(mlistgym.get(position), latitude, longitude)));
+        holder.jarak.setText(String.valueOf(getJarak(mlistgym.get(position), latitude, longitude)) + " km away");
         holder.rating.setText(String.valueOf(mlistgym.get(position).getRating()));
-        holder.teenagePrice.setText(String.valueOf(mlistgym.get(position).getTeenagePrice()));
+        holder.price.setText(String.valueOf(mlistgym.get(position).getTeenagePrice() + " - " + mlistgym.get(position).getAdultPrice()));
         holder.tipe.setText(mlistgym.get(position).getTipe());
     }
 
@@ -61,7 +61,7 @@ public class ListGymAdapter extends RecyclerView.Adapter<ListGymAdapter.ListGymH
     }
 
     public class ListGymHolder extends RecyclerView.ViewHolder{
-        TextView nama, lokasi, review, jarak, rating, teenagePrice, adultPrice, tipe;
+        TextView nama, lokasi, review, jarak, rating, price, tipe;
         ImageView gympic;
         ConstraintLayout constraintList;
         final ListGymAdapter adap;
@@ -73,7 +73,7 @@ public class ListGymAdapter extends RecyclerView.Adapter<ListGymAdapter.ListGymH
             jarak = view.findViewById(R.id.jarak);
             tipe = view.findViewById(R.id.tipegym);
             gympic = view.findViewById(R.id.gympic);
-            teenagePrice = view.findViewById(R.id.harga);
+            price = view.findViewById(R.id.harga);
             constraintList = view.findViewById(R.id.constraintList);
             this.adap = adap;
 

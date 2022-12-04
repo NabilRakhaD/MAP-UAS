@@ -3,29 +3,15 @@ package umn.ac.id.uas;
 import java.io.Serializable;
 
 public class Gym implements Serializable {
-    private String nama, lokasi, tipe;
+    private String nama, lokasi, tipe, deskripsi;
     private int rating, teenagePrice, adultPrice, gympic, review;
     private double latitude, longitude;
 
-    public double getLatitude() {
-        return latitude;
-    }
 
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
-    public double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
-
-    public Gym(String nama, String lokasi, int review, String tipe, int rating, int teenagePrice, int adultPrice, double latitude, double longitude){
+    public Gym(String nama, String lokasi, String deskripsi, int review, String tipe, int rating, int teenagePrice, int adultPrice, double latitude, double longitude){
         this.nama = nama;
         this.lokasi = lokasi;
+        this.deskripsi = deskripsi;
         this.review = review;
         this.tipe = tipe;
         this.rating = rating;
@@ -97,5 +83,29 @@ public class Gym implements Serializable {
 
     public void setAdultPrice(int adultPrice) {
         this.adultPrice = adultPrice;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getDeskripsi() {
+        return deskripsi;
+    }
+
+    public void setDeskripsi(String deskripsi) {
+        this.deskripsi = deskripsi;
     }
 }

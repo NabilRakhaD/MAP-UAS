@@ -6,7 +6,9 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,9 +22,12 @@ import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
-public class DetailGymActivity extends AppCompatActivity {
+import java.text.DecimalFormat;
 
-     TextView nama, tipe, jarak, review, membership, payment;
+public class DetailGymActivity extends AppCompatActivity {
+     double dLatitude, dLongitude, a, c, dDistance, meterConversion = 1609, myDistance, earthRadius = 3958.75;
+     double latitude, longitude;
+     TextView nama, tipe, jarak, review, membership, payment, deskripsi, address, remajaPrice, dewasaPrice;
      RadioGroup radioGroup;
      RadioButton radioButton;
 
@@ -31,19 +36,37 @@ public class DetailGymActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_gym);
 
+        SharedPreferences sharedPreferences = getSharedPreferences("myKey", MODE_PRIVATE);
+        latitude = Double.parseDouble(sharedPreferences.getString("latitude",""));
+        longitude = Double.parseDouble(sharedPreferences.getString("longitude",""));
+
         Intent intent = getIntent();
         Gym gym = (Gym) intent.getSerializableExtra("gym");
+
+        Log.d("longlat", String.valueOf(latitude));
+        Log.d("longlat", String.valueOf(longitude));
+        Log.d("longlat", String.valueOf(gym.getLatitude()));
+        Log.d("longlat", String.valueOf(gym.getLongitude()));
 
         nama = findViewById(R.id.namagymDetailGym);
         tipe = findViewById(R.id.tipegymDetailGym);
         jarak = findViewById(R.id.jarakDetailGym);
         review = findViewById(R.id.review);
+        deskripsi = findViewById(R.id.desGymDetail);
+        address = findViewById(R.id.AddressGymDetail);
+        remajaPrice = findViewById(R.id.hargaRemaja);
+        dewasaPrice = findViewById(R.id.hargaDewasa);
         membership = findViewById(R.id.membership);
 
         nama.setText(gym.getNama());
         tipe.setText(gym.getTipe());
-//        jarak.setText(gym.getJarak());
-        review.setText(String.valueOf(gym.getReview()));
+        jarak.setText(String.valueOf(getJarak(gym.getLatitude(), gym.getLongitude(), latitude, longitude)) + " km away");
+        review.setText(String.valueOf(gym.getReview()) + " Reviews");
+        deskripsi.setText(gym.getDeskripsi());
+        address.setText(gym.getLokasi());
+        remajaPrice.setText(String.valueOf(gym.getTeenagePrice()));
+        dewasaPrice.setText(String.valueOf(gym.getAdultPrice()));
+
 
         membership.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,6 +98,19 @@ public class DetailGymActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    private double getJarak(double desLat, double desLong, double currLat, double currLong) {
+        dLatitude = Math.toRadians(desLat -  currLat);
+        dLongitude = Math.toRadians(desLong - currLong);
+        a = (Math.sin(dLatitude/2.0) * Math.sin(dLatitude/2.0) +
+                Math.sin(dLongitude/2.0) * Math.sin(dLongitude/2.0)) *
+                Math.cos(Math.toRadians(currLat)) *
+                Math.cos(Math.toRadians(desLat));
+        c = 2.0 * Math.atan2(Math.sqrt(a), Math.sqrt(1.0-a));
+        dDistance = earthRadius * c;
+        myDistance = dDistance * meterConversion;
+        return Double.parseDouble(new DecimalFormat("#.##").format(myDistance/1000.0));
     }
 
     private void MembershipModal() {

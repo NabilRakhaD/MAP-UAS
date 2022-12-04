@@ -6,6 +6,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -30,6 +31,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 public class ProfilActivity extends AppCompatActivity {
     TextView emailProfile, phoneProfile, genderProfile, profilename;
+    boolean isGoogle;
     FirebaseUser firebaseUser;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -47,7 +49,6 @@ public class ProfilActivity extends AppCompatActivity {
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         getUser();
-
 
         logout = findViewById(R.id.logout);
         logout.setOnClickListener(new View.OnClickListener() {
