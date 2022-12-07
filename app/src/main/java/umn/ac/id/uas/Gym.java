@@ -3,15 +3,15 @@ package umn.ac.id.uas;
 import java.io.Serializable;
 
 public class Gym implements Serializable {
-    private String nama, lokasi, tipe, deskripsi;
-    private int rating, teenagePrice, adultPrice, gympic, review;
+    private String nama, lokasi, tipe, deskripsi, gambar;
+    private int rating, teenagePrice, adultPrice, review;
     private double latitude, longitude;
 
-
-    public Gym(String nama, String lokasi, String deskripsi, int review, String tipe, int rating, int teenagePrice, int adultPrice, double latitude, double longitude){
+    public Gym(String nama, String lokasi, String deskripsi, String gambar, int review, String tipe, int rating, int teenagePrice, int adultPrice, double latitude, double longitude){
         this.nama = nama;
         this.lokasi = lokasi;
         this.deskripsi = deskripsi;
+        this.gambar = gambar;
         this.review = review;
         this.tipe = tipe;
         this.rating = rating;
@@ -51,14 +51,6 @@ public class Gym implements Serializable {
 
     public void setTipe(String tipe) {
         this.tipe = tipe;
-    }
-
-    public int getGympic() {
-        return gympic;
-    }
-
-    public void setGympic(int gympic) {
-        this.gympic = gympic;
     }
 
     public int getRating() {
@@ -107,5 +99,13 @@ public class Gym implements Serializable {
 
     public void setDeskripsi(String deskripsi) {
         this.deskripsi = deskripsi;
+    }
+
+    public String getGambar() {
+        return gambar;
+    }
+
+    public void setGambar(String gambar) {
+        this.gambar = gambar;
     }
 }

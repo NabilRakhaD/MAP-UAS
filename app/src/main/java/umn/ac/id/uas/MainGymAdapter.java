@@ -23,6 +23,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.viewpager.widget.PagerAdapter;
 
 
+import com.squareup.picasso.Picasso;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -60,7 +62,7 @@ public class MainGymAdapter extends PagerAdapter {
 
 
         Gym gym = listgymMain.get(position);
-        //image.setImageResource(gym.getGympic());
+        Picasso.get().load(gym.getGambar()).into(image);
         nama.setText(gym.getNama());
         jarak.setText(String.valueOf(getJarak(listgymMain.get(position), latitude, longitude)) + " km away");
 

@@ -14,10 +14,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -29,11 +37,18 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ProfilActivity extends AppCompatActivity {
-    TextView emailProfile, phoneProfile, genderProfile, profilename;
-    boolean isGoogle;
+    TextView emailProfile, phoneProfile, genderProfile, profilename, changename;
     FirebaseUser firebaseUser;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    GoogleSignInClient gsc;
+    GoogleSignInOptions gso;
+    RadioGroup radioGroup;
+    RadioButton radioButton;
+    String radioText;
 
     TextView logout;
 
@@ -46,15 +61,80 @@ public class ProfilActivity extends AppCompatActivity {
         phoneProfile = findViewById(R.id.phoneProfile);
         genderProfile = findViewById(R.id.GenderProfile);
         profilename = findViewById(R.id.profilename);
+        changename = findViewById(R.id.changename);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         getUser();
+        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken("61956869598-6eieomiljbdgu84ntjqvd13nk4kd4i93.apps.googleusercontent.com")
+                .requestEmail().build();
+        gsc = GoogleSignIn.getClient(this, gso);
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+
+
+        changename.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Dialog custom = new Dialog(ProfilActivity.this);
+
+                custom.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                custom.setContentView(R.layout.customizeprofile);
+                custom.setCancelable(true);
+
+                Window window = custom.getWindow();
+                WindowManager.LayoutParams wlp = window.getAttributes();
+
+                wlp.gravity = Gravity.BOTTOM;
+                window.setAttributes(wlp);
+
+                radioGroup = custom.findViewById(R.id.radiogrup);
+                EditText nama = custom.findViewById(R.id.editNama);
+                EditText noHp = custom.findViewById(R.id.editHp);
+                TextView submit = custom.findViewById(R.id.submitCustom);
+
+                submit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int SelectedId = radioGroup.getCheckedRadioButtonId();
+                        radioButton = (RadioButton) custom.findViewById(SelectedId);
+                        radioText = radioButton.getText().toString();
+
+                        Map<String, Object> user = new HashMap<>();
+                        user.put("Nama", nama.getText().toString());
+                        user.put("Jenis Kelamin", radioText);
+                        user.put("PhoneNumber", noHp.getText().toString());
+
+                        db.collection("User").document(firebaseUser.getUid())
+                                .set(user)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d("TAG", "DocumentSnapshot successfully written!");
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w("TAG", "Error writing document", e);
+                                    }
+                                });
+                        getUser();
+                        custom.hide();
+                        Toast.makeText(ProfilActivity.this, "Data berhasil diganti", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                custom.show();
+            }
+        });
 
         logout = findViewById(R.id.logout);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FirebaseAuth.getInstance().signOut();
+                if(account!=null){
+                    gsc.signOut();
+                }
                 startActivity(new Intent(ProfilActivity.this, signIn_Activity.class));
                 finish();
             }

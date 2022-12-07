@@ -42,6 +42,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     double longitude, latitude;
@@ -53,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseUser firebaseUser;
     private FusedLocationProviderClient locationProviderClient;
-
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -71,15 +72,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         isGoogle = intent.getBooleanExtra("isGoogle", false);
 
-        if (isGoogle) {
-            String name = GoogleSignIn.getLastSignedInAccount(this).getDisplayName();
-            HomeTitle.setText("Go Gym, " + name.split(" ", 3)[0]);
-            Toast.makeText(this, "masuk gugel", Toast.LENGTH_SHORT).show();
-        } else {
-            if (firebaseUser != null) {
-                HomeTitle.setText(firebaseUser.getDisplayName());
-                Toast.makeText(this, "masuk firebase", Toast.LENGTH_SHORT).show();
-            }
+        if (firebaseUser != null) {
+            HomeTitle.setText(firebaseUser.getDisplayName());
+            Toast.makeText(this, "masuk firebase", Toast.LENGTH_SHORT).show();
         }
 
         //Get Location
@@ -168,7 +163,8 @@ public class MainActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             for(QueryDocumentSnapshot document : task.getResult()){
                                 listgymMain.add(new Gym(document.getString("Nama"), document.getString("Address"), document.getString("Deskripsi"),
-                                        Integer.parseInt(document.get("Review").toString()), document.getString("Tipe"), Integer.parseInt(document.get("Rating").toString()),
+                                        document.getString("Gambar"), Integer.parseInt(document.get("Review").toString()),
+                                        document.getString("Tipe"), Integer.parseInt(document.get("Rating").toString()),
                                         Integer.parseInt(document.get("PriceRemaja").toString()), Integer.parseInt(document.get("PriceDewasa").toString()),
                                         document.getGeoPoint("TitikGeo").getLatitude(), document.getGeoPoint("TitikGeo").getLongitude()));
                             }

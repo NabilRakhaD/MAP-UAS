@@ -91,7 +91,8 @@ public class GymActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             for(QueryDocumentSnapshot document : task.getResult()){
                                 listgym.add(new Gym(document.getString("Nama"), document.getString("Address"), document.getString("Deskripsi"),
-                                        Integer.parseInt(document.get("Review").toString()), document.getString("Tipe"), Integer.parseInt(document.get("Rating").toString()),
+                                        document.getString("Gambar"), Integer.parseInt(document.get("Review").toString()),
+                                        document.getString("Tipe"), Integer.parseInt(document.get("Rating").toString()),
                                         Integer.parseInt(document.get("PriceRemaja").toString()), Integer.parseInt(document.get("PriceDewasa").toString()),
                                         document.getGeoPoint("TitikGeo").getLatitude(), document.getGeoPoint("TitikGeo").getLongitude()));
                             }

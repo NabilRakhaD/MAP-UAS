@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -21,6 +22,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.SignInAccount;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -29,20 +32,19 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class signIn_Activity extends AppCompatActivity {
     TextView signUp, btnReady, email, password;
     private FirebaseAuth mAuth;
-    FirebaseUser firebaseUser;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     Boolean isGoogle;
     ProgressDialog progressDialog;
     GoogleSignInOptions gso;
     GoogleSignInClient gsc;
     GoogleSignInAccount acct = null;
-    SignInClient oneTapClient = null;
-    private static final int REQ_ONE_TAP = 2;  // Can be any integer unique to the Activity.
-    private boolean showOneTapUI = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +70,6 @@ public class signIn_Activity extends AppCompatActivity {
         progressDialog.setTitle("Loading");
         progressDialog.setMessage("Tunggu Sebentar");
         progressDialog.setCancelable(false);
-
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,14 +143,10 @@ public class signIn_Activity extends AppCompatActivity {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
 
             try {
-                task.getResult(ApiException.class);
                 //acct = GoogleSignIn.getLastSignedInAccount(this);
                 acct = task.getResult(ApiException.class);
-                firebaseAtuhWithGoogle(acct.getIdToken());
+                firebaseAuthWithGoogle(acct.getIdToken());
                 isGoogle = true;
-                Intent MoveToMainActivity2 = new Intent(this,MainActivity.class);
-                MoveToMainActivity2.putExtra("isGoogle", isGoogle);
-                startActivity(MoveToMainActivity2);
 
                 Toast.makeText(this, "Welcome, " + acct.getDisplayName(), Toast.LENGTH_SHORT).show();
             } catch (ApiException e) {
@@ -159,7 +155,7 @@ public class signIn_Activity extends AppCompatActivity {
         }
     }
 
-    private void firebaseAtuhWithGoogle(String idToken) {
+    private void firebaseAuthWithGoogle(String idToken) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -167,9 +163,42 @@ public class signIn_Activity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             FirebaseUser user = mAuth.getCurrentUser();
+                            if(TextUtils.isEmpty(user.getUid())){
+                                Log.d("loguid", "ga ada uid");
+                            }else{
+                                Log.d("loguid", user.getUid());
+                            }
+
+                                Map<String, Object> userGoogle = new HashMap<>();
+                                userGoogle.put("Nama", "-");
+                                userGoogle.put("Jenis Kelamin", "-");
+                                userGoogle.put("PhoneNumber", "-");
+
+                                db.collection("User").document(user.getUid())
+                                        .set(userGoogle)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Log.d("TAG", "DocumentSnapshot successfully written!");
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.w("TAG", "Error writing document", e);
+                                            }
+                                        });
+                            isGoogle = true;
+                            Intent MoveToMainActivity2 = new Intent(getApplicationContext(),MainActivity.class);
+                            MoveToMainActivity2.putExtra("isGoogle", isGoogle);
+                            startActivity(MoveToMainActivity2);
                         }
                     }
                 });
+    }
+
+    private void isiDataGoogle() {
+
     }
 
 //    @Override

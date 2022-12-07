@@ -16,6 +16,8 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import org.w3c.dom.Text;
 
 import java.text.DecimalFormat;
@@ -48,11 +50,11 @@ public class ListGymAdapter extends RecyclerView.Adapter<ListGymAdapter.ListGymH
     @Override
     public void onBindViewHolder(@NonNull ListGymHolder holder, int position){
         holder.nama.setText(mlistgym.get(position).getNama());
-        holder.gympic.setImageResource(mlistgym.get(position).getGympic());
         holder.jarak.setText(String.valueOf(getJarak(mlistgym.get(position), latitude, longitude)) + " km away");
         holder.rating.setText(String.valueOf(mlistgym.get(position).getRating()));
         holder.price.setText(String.valueOf(mlistgym.get(position).getTeenagePrice() + " - " + mlistgym.get(position).getAdultPrice()));
         holder.tipe.setText(mlistgym.get(position).getTipe());
+        Picasso.get().load(mlistgym.get(position).getGambar()).into(holder.gympic);
     }
 
     @Override
@@ -61,7 +63,7 @@ public class ListGymAdapter extends RecyclerView.Adapter<ListGymAdapter.ListGymH
     }
 
     public class ListGymHolder extends RecyclerView.ViewHolder{
-        TextView nama, lokasi, review, jarak, rating, price, tipe;
+        TextView nama, jarak, rating, price, tipe;
         ImageView gympic;
         ConstraintLayout constraintList;
         final ListGymAdapter adap;
