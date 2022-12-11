@@ -37,11 +37,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import org.w3c.dom.Text;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class ProfilActivity extends AppCompatActivity {
-    TextView emailProfile, phoneProfile, genderProfile, profilename, changename;
+    TextView emailProfile, phoneProfile, genderProfile, profilename, changename, manageMember;
     FirebaseUser firebaseUser;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     GoogleSignInClient gsc;
@@ -61,6 +63,7 @@ public class ProfilActivity extends AppCompatActivity {
         phoneProfile = findViewById(R.id.phoneProfile);
         genderProfile = findViewById(R.id.GenderProfile);
         profilename = findViewById(R.id.profilename);
+        manageMember = findViewById(R.id.ManageMember);
         changename = findViewById(R.id.changename);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -126,6 +129,41 @@ public class ProfilActivity extends AppCompatActivity {
                 custom.show();
             }
         });
+
+
+        manageMember.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Dialog manage = new Dialog(ProfilActivity.this);
+
+                manage.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                manage.setContentView(R.layout.managemembership);
+                manage.setCancelable(true);
+
+                TextView profilMembership = manage.findViewById(R.id.profilMembership);
+
+                db.collection("User")
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        DocumentReference docRef = db.collection("User").document(firebaseUser.getUid());
+                                        if(firebaseUser.getUid().equals(document.getId())){
+                                            profilMembership.setText(document.getString("Membership"));
+                                        }
+                                    }
+                                } else {
+                                    Log.w("TAG2", "Error getting documents.", task.getException());
+                                }
+                            }
+                        });
+
+                manage.show();
+            }
+        });
+
 
         logout = findViewById(R.id.logout);
         logout.setOnClickListener(new View.OnClickListener() {

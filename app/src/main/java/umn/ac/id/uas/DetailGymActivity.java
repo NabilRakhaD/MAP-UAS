@@ -19,10 +19,17 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.DecimalFormat;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DetailGymActivity extends AppCompatActivity {
      double dLatitude, dLongitude, a, c, dDistance, meterConversion = 1609, myDistance, earthRadius = 3958.75;
@@ -30,11 +37,16 @@ public class DetailGymActivity extends AppCompatActivity {
      TextView nama, tipe, jarak, review, membership, payment, deskripsi, address, remajaPrice, dewasaPrice;
      RadioGroup radioGroup;
      RadioButton radioButton;
+     FirebaseFirestore db = FirebaseFirestore.getInstance();
+     FirebaseUser firebaseUser;
+     String namagym;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_gym);
+
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         SharedPreferences sharedPreferences = getSharedPreferences("myKey", MODE_PRIVATE);
         latitude = Double.parseDouble(sharedPreferences.getString("latitude",""));
@@ -66,6 +78,8 @@ public class DetailGymActivity extends AppCompatActivity {
         address.setText(gym.getLokasi());
         remajaPrice.setText(String.valueOf(gym.getTeenagePrice()));
         dewasaPrice.setText(String.valueOf(gym.getAdultPrice()));
+
+        namagym = String.valueOf(gym.getNama());
 
 
         membership.setOnClickListener(new View.OnClickListener() {
@@ -135,6 +149,30 @@ public class DetailGymActivity extends AppCompatActivity {
             public void onClick(View view) {
                 int selectedId = radioGroup.getCheckedRadioButtonId();
                 radioButton = membership.findViewById(selectedId);
+
+                Map<String, Object> user = new HashMap<>();
+                if(radioButton.getText().toString().equals("W E E K L Y")){
+                    user.put("Membership", "Weekly di " + namagym);
+                }else if(radioButton.getText().toString().equals("M O N T H L Y")){
+                    user.put("Membership", "Monthly di " + namagym);
+                }else if(radioButton.getText().toString().equals("Y E A R L Y")){
+                    user.put("Membership", "Yearly di " + namagym);
+                }
+
+                db.collection("User").document(firebaseUser.getUid())
+                        .update(user)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d("TAG", "DocumentSnapshot successfully written!");
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w("TAG", "Error writing document", e);
+                            }
+                        });
                 Toast.makeText(DetailGymActivity.this, "Anda memilih Membership " + radioButton.getText().toString(), Toast.LENGTH_SHORT).show();
                 membership.hide();
             }

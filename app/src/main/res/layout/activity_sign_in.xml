@@ -73,18 +73,30 @@
 
     <EditText
         android:id="@+id/password"
-        android:layout_width="300dp"
+        android:layout_width="230dp"
         android:layout_height="30dp"
         android:layout_marginStart="12dp"
         android:layout_marginBottom="12dp"
         android:background="@null"
         android:hint="Password"
         android:textColor="@color/white"
-        android:inputType="text|textNoSuggestions"
         android:textColorHint="#7b8799"
         android:textSize="15dp"
+        android:inputType="textPassword"
         app:layout_constraintBottom_toBottomOf="@+id/roundedinput2"
         app:layout_constraintStart_toStartOf="@+id/roundedinput2"></EditText>
+
+    <TextView
+        android:id="@+id/showhide"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/ic_baseline_remove_red_eye_24"
+        app:layout_constraintBottom_toBottomOf="@+id/roundedinput2"
+        app:layout_constraintEnd_toEndOf="@+id/roundedinput2"
+        app:layout_constraintTop_toBottomOf="@+id/roundedinput1"
+        app:layout_constraintVertical_bias="0.303"></TextView>
 
     <TextView
         android:id="@+id/btnReady"

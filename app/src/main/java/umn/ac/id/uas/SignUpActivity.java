@@ -112,6 +112,7 @@ public class SignUpActivity extends AppCompatActivity {
                     user.put("Nama", username);
                     user.put("Jenis Kelamin", gender);
                     user.put("PhoneNumber", phone);
+                    user.put("Membership", "Belum mempunyai membership");
 
                     db.collection("User").document(firebaseUser.getUid())
                             .set(user)

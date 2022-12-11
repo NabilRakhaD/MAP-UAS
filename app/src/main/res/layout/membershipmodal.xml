@@ -36,8 +36,17 @@
                 android:textSize="20dp"
                 android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                android:paddingLeft="10dp">
             </RadioButton>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rp250.000"
+                android:textSize="15dp"
+                android:textColor="@color/white"
+                android:layout_marginLeft="45dp"></TextView>
 
             <RadioButton
                 android:id="@+id/monthly"
@@ -48,7 +57,16 @@
                 android:text="M O N T H L Y"
                 android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/weekly" />
+                app:layout_constraintTop_toBottomOf="@+id/weekly"
+                android:paddingLeft="10dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rp800.000"
+                android:textSize="15dp"
+                android:textColor="@color/white"
+                android:layout_marginLeft="45dp"></TextView>
 
             <RadioButton
                 android:id="@+id/yearly"
@@ -59,7 +77,16 @@
                 android:textColor="@color/white"
                 android:text="Y E A R L Y"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/monthly" />
+                app:layout_constraintTop_toBottomOf="@+id/monthly"
+                android:paddingLeft="10dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rp8.000.000"
+                android:textSize="15dp"
+                android:textColor="@color/white"
+                android:layout_marginLeft="45dp"></TextView>
     </RadioGroup>
 
     <TextView

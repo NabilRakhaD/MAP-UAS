@@ -8,6 +8,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -37,7 +39,8 @@ import java.util.Map;
 
 
 public class signIn_Activity extends AppCompatActivity {
-    TextView signUp, btnReady, email, password;
+    TextView signUp, btnReady, email, password, showhide;
+    boolean show = false;
     private FirebaseAuth mAuth;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     Boolean isGoogle;
@@ -64,6 +67,21 @@ public class signIn_Activity extends AppCompatActivity {
         password = findViewById(R.id.password);
         signUp = findViewById(R.id.SignUp);
         btnReady = findViewById(R.id.btnReady);
+        showhide = findViewById(R.id.showhide);
+
+        showhide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!show){
+                    password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    show = true;
+                }else{
+                    password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    show = false;
+                }
+
+            }
+        });
 
         mAuth = FirebaseAuth.getInstance();
         progressDialog = new ProgressDialog(signIn_Activity.this);
@@ -173,6 +191,7 @@ public class signIn_Activity extends AppCompatActivity {
                                 userGoogle.put("Nama", "-");
                                 userGoogle.put("Jenis Kelamin", "-");
                                 userGoogle.put("PhoneNumber", "-");
+                                userGoogle.put("Membership", "Belum mempunyai membership");
 
                                 db.collection("User").document(user.getUid())
                                         .set(userGoogle)
@@ -196,45 +215,6 @@ public class signIn_Activity extends AppCompatActivity {
                     }
                 });
     }
-
-    private void isiDataGoogle() {
-
-    }
-
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        switch (requestCode) {
-//            case REQ_ONE_TAP:
-//                try {
-//                    SignInCredential googleCredential = oneTapClient.getSignInCredentialFromIntent(data);
-//                    String idToken = googleCredential.getGoogleIdToken();
-//                    if (idToken !=  null) {
-//                        AuthCredential firebaseCredential = GoogleAuthProvider.getCredential(idToken, null);
-//                        mAuth.signInWithCredential(firebaseCredential)
-//                                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-//                                    @Override
-//                                    public void onComplete(@NonNull Task<AuthResult> task) {
-//                                        if (task.isSuccessful()) {
-//                                            // Sign in success, update UI with the signed-in user's information
-//                                            Log.d("TAG", "signInWithCredential:success");
-//                                            FirebaseUser user = mAuth.getCurrentUser();
-//                                            reload();
-//                                        } else {
-//                                            // If sign in fails, display a message to the user.
-//                                            Log.w("TAG", "signInWithCredential:failure", task.getException());
-//                                            reload();
-//                                        }
-//                                    }
-//                                });
-//                    }
-//                } catch (ApiException e) {
-//                    // ...
-//                }
-//                break;
-//        }
-//    }
 }
 
 

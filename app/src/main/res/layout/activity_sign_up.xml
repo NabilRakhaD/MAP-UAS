@@ -174,17 +174,28 @@
 
     <EditText
         android:id="@+id/pass"
-        android:layout_width="300dp"
+        android:layout_width="230dp"
         android:layout_height="30dp"
         android:layout_marginStart="12dp"
         android:layout_marginBottom="12dp"
         android:background="@null"
         android:hint="Password"
-        android:inputType="text|textNoSuggestions"
+        android:inputType="textPassword"
         android:textColorHint="#7b8799"
         android:textSize="15dp"
         app:layout_constraintBottom_toBottomOf="@+id/roundedinput7"
         app:layout_constraintStart_toStartOf="@+id/roundedinput7"></EditText>
+
+    <TextView
+        android:id="@+id/showhide"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/ic_baseline_remove_red_eye_24"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/roundedinput7"
+        app:layout_constraintEnd_toEndOf="@+id/roundedinput7"
+        app:layout_constraintTop_toBottomOf="@+id/radiogrup"></TextView>
 
     <TextView
         android:id="@+id/btnLets"
