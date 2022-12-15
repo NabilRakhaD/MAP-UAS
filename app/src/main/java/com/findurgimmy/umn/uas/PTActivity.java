@@ -1,4 +1,4 @@
-package umn.ac.id.uas;
+package com.findurgimmy.umn.uas;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,14 +9,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -24,30 +30,13 @@ public class PTActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ListPTAdapter ptadap;
     public ArrayList<PT> listpt = new ArrayList<>();
-    PT pt1,pt2;
-
-    public void dataPT(){
-        pt1 = new PT("Ponco Supranoto", "Saya seorang profesional personal trainer yang  dapat membantu anda dalam training.",
-                "54", "0812343217", "Gading Serpong", "500 review","5 km", "Power Lifting", 4, 50000,R.drawable.hotshape );
-
-        pt2 = new PT("Theodorus Supranoto", "Saya seorang profesional personal trainer yang  dapat membantu anda dalam training.",
-                "54", "0812343217", "Gading Serpong", "500 review","5 km", "Power Lifting", 4, 50000,R.drawable.hotshape );
-
-
-        listpt.add(pt1);
-        listpt.add(pt2);
-    }
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ptactivity);
         dataPT();
-
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-        ptadap = new ListPTAdapter(this, listpt);
-        recyclerView.setAdapter(ptadap);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         BottomNavigationView btmNavView = findViewById(R.id.btmNavigationView);
 
@@ -76,6 +65,32 @@ public class PTActivity extends AppCompatActivity {
         if(getSupportActionBar() != null){
             getSupportActionBar().hide();
         }
+    }
+
+    private void dataPT(){
+        db.collection("PersonalTrainer")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for(QueryDocumentSnapshot document : task.getResult()){
+//                                listpt.add(new PT(document.getString("Nama"), document.getString("Gym"),
+//                                           Integer.parseInt(document.get("Umur").toString()), document.getString("PhoneNumber"),
+//                                           Integer.parseInt(document.get("Price").toString()), document.getString("Picture"),
+//                                           document.getString("keahlian"), document.get("Jadwal")));
+                                Log.d("array", String.valueOf(document.getData()));
+                            }
+
+                            recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+                            ptadap = new ListPTAdapter(PTActivity.this, listpt);
+                            recyclerView.setAdapter(ptadap);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(PTActivity.this));
+                        } else {
+                            Log.w("TAG2", "Error getting documents.", task.getException());
+                        }
+                    }
+                });
     }
 
     protected void searchGymPT(){

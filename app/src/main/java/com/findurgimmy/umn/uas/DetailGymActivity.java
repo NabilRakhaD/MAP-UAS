@@ -1,4 +1,4 @@
-package umn.ac.id.uas;
+package com.findurgimmy.umn.uas;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;

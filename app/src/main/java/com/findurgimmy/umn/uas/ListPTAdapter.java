@@ -1,7 +1,6 @@
-package umn.ac.id.uas;
+package com.findurgimmy.umn.uas;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,12 +32,12 @@ public class ListPTAdapter extends RecyclerView.Adapter<ListPTAdapter.ListPTHold
 
     @Override
     public void onBindViewHolder(@NonNull ListPTHolder holder, int position) {
-        holder.nama.setText(mlistpt.get(position).getNama());
-        holder.ptpic.setImageResource(mlistpt.get(position).getPtpic());
-        holder.jarak.setText(mlistpt.get(position).getJarak());
-        holder.rating.setText(String.valueOf(mlistpt.get(position).getRating()));
-        holder.price.setText(String.valueOf(mlistpt.get(position).getPrice()));
-        holder.tipe.setText(mlistpt.get(position).getType());
+//        holder.nama.setText(mlistpt.get(position).getNama());
+//        holder.ptpic.setImageResource(mlistpt.get(position).getPtpic());
+//        holder.jarak.setText(mlistpt.get(position).getJarak());
+//        holder.rating.setText(String.valueOf(mlistpt.get(position).getRating()));
+//        holder.price.setText(String.valueOf(mlistpt.get(position).getPrice()));
+//        holder.tipe.setText(mlistpt.get(position).getType());
     }
 
 
@@ -48,7 +47,7 @@ public class ListPTAdapter extends RecyclerView.Adapter<ListPTAdapter.ListPTHold
     }
 
     public class ListPTHolder extends RecyclerView.ViewHolder{
-        TextView nama, lokasi, review, jarak, rating, price, tipe;
+        TextView nama, review, jarak, rating, price, tipe;
         ImageView ptpic;
         ConstraintLayout constraintList;
         final ListPTAdapter adap;

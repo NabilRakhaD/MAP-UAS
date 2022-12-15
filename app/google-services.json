@@ -7,6 +7,43 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:61956869598:android:ae7502c2cc096150fae14f",
+        "android_client_info": {
+          "package_name": "com.findurgimmy.umn.uas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "61956869598-d7kkka06sn43d8ql37i3qntmp11u8peb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.findurgimmy.umn.uas",
+            "certificate_hash": "6876edee8528ec8e107eefc1bfa5984412b6c2ec"
+          }
+        },
+        {
+          "client_id": "61956869598-6eieomiljbdgu84ntjqvd13nk4kd4i93.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDoLhnJacftS7bz9ZBEJ7s7Q1CQhHMwU9M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "61956869598-6eieomiljbdgu84ntjqvd13nk4kd4i93.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:61956869598:android:67c760c5e1e26196fae14f",
         "android_client_info": {
           "package_name": "umn.ac.id.uas"

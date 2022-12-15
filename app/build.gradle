@@ -4,11 +4,10 @@ plugins {
 }
 
 android {
-    namespace 'umn.ac.id.uas'
     compileSdk 32
 
     defaultConfig {
-        applicationId "umn.ac.id.uas"
+        applicationId "com.findurgimmy.umn.uas"
         minSdk 21
         targetSdk 32
         versionCode 1
@@ -52,21 +51,4 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.8'
 
 
-//    // google map dependenies
-//
-//    implementation 'com.google.android.libraries.places:places:2.4.0'
-//    implementation 'com.google.maps.android:android-maps-utils:2.2.0'
-//    implementation 'com.google.android.gms:play-services-maps:17.0.1'
-//    implementation 'com.google.maps:google-maps-services:0.2.9'
-//    implementation 'org.slf4j:slf4j-simple:1.7.25'
-//
-//    // Retrofit Library
-//    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-//    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-//    implementation 'com.squareup.retrofit2:converter-scalars:2.9.0'
-//
-//
-//    // Navigation Component
-//    implementation "androidx.navigation:navigation-fragment:$nav_version"
-//    implementation "androidx.navigation:navigation-ui:$nav_version"
 }

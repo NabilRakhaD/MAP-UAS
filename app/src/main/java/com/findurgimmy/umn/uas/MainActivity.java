@@ -1,4 +1,4 @@
-package umn.ac.id.uas;
+package com.findurgimmy.umn.uas;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -21,12 +21,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -42,8 +39,6 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     double longitude, latitude;
@@ -78,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //Get Location
+        //locationProviderClient = LocationServices.getFusedLocationProviderClient(MainActivity.this);
         locationProviderClient = LocationServices.getFusedLocationProviderClient(MainActivity.this);
 
         //Get Data Gym
@@ -107,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -115,20 +111,24 @@ public class MainActivity extends AppCompatActivity {
             if (ActivityCompat.checkSelfPermission(this,
                     Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                     ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "Lokasi tidak diaktifkan", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Lokasi tidak di aktifkan", Toast.LENGTH_SHORT).show();
             }else {
+                Log.d("longlat", "wooooooooooooooi");
                 getLocation();
             }
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
+
     private void getLocation() {
         if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION},10);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION},10);
+            }
+            Log.d("longlat", "wooooooooooooooi");
         }else {
             locationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
                 @Override
@@ -136,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
                     if(location!=null){
                         latitude = location.getLatitude();
                         longitude = location.getLongitude();
+                        Log.d("longlat", String.valueOf(latitude));
 
                         SharedPreferences sharedPref = getSharedPreferences("myKey", MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPref.edit();
@@ -172,7 +173,6 @@ public class MainActivity extends AppCompatActivity {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                                 getLocation();
                             }
-
                             viewPager = findViewById(R.id.viewpager);
                             maingymadap = new MainGymAdapter(MainActivity.this, listgymMain);
                             viewPager.setAdapter(maingymadap);
