@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
                     ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(this, "Lokasi tidak di aktifkan", Toast.LENGTH_SHORT).show();
             }else {
-                Log.d("longlat", "wooooooooooooooi");
+                Log.d("longlat", "wooooooooooooooi2");
                 getLocation();
             }
         }
@@ -121,19 +121,19 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void getLocation() {
-        if (ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION},10);
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},10);
             }
-            Log.d("longlat", "wooooooooooooooi");
+            Log.d("longlat", "wooooooooooooooi3");
         }else {
+            Log.d("status", "getting user's location");
             locationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
                 @Override
                 public void onSuccess(Location location) {
+                    Log.d("status", "success location");
                     if(location!=null){
+                        Log.d("status", "location null");
                         latitude = location.getLatitude();
                         longitude = location.getLongitude();
                         Log.d("longlat", String.valueOf(latitude));
@@ -145,6 +145,10 @@ public class MainActivity extends AppCompatActivity {
                         editor.putString("isGoogle", String.valueOf(isGoogle));
                         editor.commit();
                     }
+
+                    viewPager = findViewById(R.id.viewpager);
+                    maingymadap = new MainGymAdapter(MainActivity.this, listgymMain);
+                    viewPager.setAdapter(maingymadap);
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -173,9 +177,6 @@ public class MainActivity extends AppCompatActivity {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                                 getLocation();
                             }
-                            viewPager = findViewById(R.id.viewpager);
-                            maingymadap = new MainGymAdapter(MainActivity.this, listgymMain);
-                            viewPager.setAdapter(maingymadap);
                         } else {
                             Log.w("TAG2", "Error getting documents.", task.getException());
                         }
