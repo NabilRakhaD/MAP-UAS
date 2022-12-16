@@ -32,12 +32,12 @@ public class ListPTAdapter extends RecyclerView.Adapter<ListPTAdapter.ListPTHold
 
     @Override
     public void onBindViewHolder(@NonNull ListPTHolder holder, int position) {
-//        holder.nama.setText(mlistpt.get(position).getNama());
-//        holder.ptpic.setImageResource(mlistpt.get(position).getPtpic());
-//        holder.jarak.setText(mlistpt.get(position).getJarak());
-//        holder.rating.setText(String.valueOf(mlistpt.get(position).getRating()));
-//        holder.price.setText(String.valueOf(mlistpt.get(position).getPrice()));
-//        holder.tipe.setText(mlistpt.get(position).getType());
+        holder.nama.setText(mlistpt.get(position).getNama());
+        holder.umur.setText(mlistpt.get(position).getUmur() + " tahun");
+        //holder.jarak.setText(mlistpt.get(position).getJadwal().get(0));
+        holder.rating.setText(String.valueOf(mlistpt.get(position).getRating()));
+        holder.price.setText("Rp " + String.valueOf(mlistpt.get(position).getPrice()));
+        holder.tipe.setText(mlistpt.get(position).getKeahlian());
     }
 
 
@@ -47,7 +47,7 @@ public class ListPTAdapter extends RecyclerView.Adapter<ListPTAdapter.ListPTHold
     }
 
     public class ListPTHolder extends RecyclerView.ViewHolder{
-        TextView nama, review, jarak, rating, price, tipe;
+        TextView nama, rating, price, tipe, umur;
         ImageView ptpic;
         ConstraintLayout constraintList;
         final ListPTAdapter adap;
@@ -56,10 +56,10 @@ public class ListPTAdapter extends RecyclerView.Adapter<ListPTAdapter.ListPTHold
             super(view);
             nama = view.findViewById(R.id.namapt);
             rating = view.findViewById(R.id.rating);
-            jarak = view.findViewById(R.id.jarak);
             tipe = view.findViewById(R.id.tipept);
             ptpic = view.findViewById(R.id.ptpic);
             price = view.findViewById(R.id.harga);
+            umur = view.findViewById(R.id.umur);
             constraintList = view.findViewById(R.id.constraintList);
             this.adap = adap;
 

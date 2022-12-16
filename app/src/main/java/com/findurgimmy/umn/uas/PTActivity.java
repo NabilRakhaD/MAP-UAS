@@ -75,11 +75,12 @@ public class PTActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for(QueryDocumentSnapshot document : task.getResult()){
-//                                listpt.add(new PT(document.getString("Nama"), document.getString("Gym"),
-//                                           Integer.parseInt(document.get("Umur").toString()), document.getString("PhoneNumber"),
-//                                           Integer.parseInt(document.get("Price").toString()), document.getString("Picture"),
-//                                           document.getString("keahlian"), document.get("Jadwal")));
-                                Log.d("array", String.valueOf(document.getData()));
+                                listpt.add(new PT(document.getString("Nama"), document.getString("Gym"),
+                                           Integer.parseInt(document.get("Umur").toString()), document.getString("PhoneNumber"),
+                                           Integer.parseInt(document.get("Rating").toString()),Integer.parseInt(document.get("Price").toString()),
+                                           document.getString("Picture"), document.getString("Keahlian"),
+                                           (ArrayList<String>) document.get("Jadwal")));
+                                //Log.d("array", String.valueOf(document.getData()));
                             }
 
                             recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
