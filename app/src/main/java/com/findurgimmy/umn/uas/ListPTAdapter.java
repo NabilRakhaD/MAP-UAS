@@ -1,6 +1,7 @@
 package com.findurgimmy.umn.uas;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,10 +35,9 @@ public class ListPTAdapter extends RecyclerView.Adapter<ListPTAdapter.ListPTHold
     public void onBindViewHolder(@NonNull ListPTHolder holder, int position) {
         holder.nama.setText(mlistpt.get(position).getNama());
         holder.umur.setText(mlistpt.get(position).getUmur() + " tahun");
-        //holder.jarak.setText(mlistpt.get(position).getJadwal().get(0));
         holder.rating.setText(String.valueOf(mlistpt.get(position).getRating()));
         holder.price.setText("Rp " + String.valueOf(mlistpt.get(position).getPrice()));
-        holder.tipe.setText(mlistpt.get(position).getKeahlian());
+        holder.tipe.setText(mlistpt.get(position).getKeahlian().get(0) + ", " + mlistpt.get(position).getKeahlian().get(1));
     }
 
 
@@ -66,9 +66,9 @@ public class ListPTAdapter extends RecyclerView.Adapter<ListPTAdapter.ListPTHold
             constraintList.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//                    Intent MoveToPTDetail = new Intent(view.getContext(), DetailGymActivity.class);
-//                    MoveToPTDetail.putExtra("gym", mlistpt.get(getAdapterPosition()));
-//                    view.getContext().startActivity(MoveToPTDetail);
+                    Intent MoveToPTDetail = new Intent(view.getContext(), DetailPTActivity.class);
+                    MoveToPTDetail.putExtra("pt", mlistpt.get(getAdapterPosition()));
+                    view.getContext().startActivity(MoveToPTDetail);
                 }
             });
 

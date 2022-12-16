@@ -40,7 +40,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ProfilActivity extends AppCompatActivity {
-    TextView emailProfile, phoneProfile, genderProfile, profilename, changename, manageMember;
+    TextView emailProfile, phoneProfile, genderProfile, profilename, editprofile, viewMember, viewPT;
     FirebaseUser firebaseUser;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     GoogleSignInClient gsc;
@@ -60,8 +60,9 @@ public class ProfilActivity extends AppCompatActivity {
         phoneProfile = findViewById(R.id.phoneProfile);
         genderProfile = findViewById(R.id.GenderProfile);
         profilename = findViewById(R.id.profilename);
-        manageMember = findViewById(R.id.ManageMember);
-        changename = findViewById(R.id.changename);
+        viewMember = findViewById(R.id.ViewMember);
+        editprofile = findViewById(R.id.changename);
+        viewPT = findViewById(R.id.ViewPT);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         getUser();
@@ -72,7 +73,7 @@ public class ProfilActivity extends AppCompatActivity {
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
 
 
-        changename.setOnClickListener(new View.OnClickListener() {
+        editprofile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final Dialog custom = new Dialog(ProfilActivity.this);
@@ -97,30 +98,34 @@ public class ProfilActivity extends AppCompatActivity {
                     public void onClick(View view) {
                         int SelectedId = radioGroup.getCheckedRadioButtonId();
                         radioButton = (RadioButton) custom.findViewById(SelectedId);
-                        radioText = radioButton.getText().toString();
 
-                        Map<String, Object> user = new HashMap<>();
-                        user.put("Nama", nama.getText().toString());
-                        user.put("Jenis Kelamin", radioText);
-                        user.put("PhoneNumber", noHp.getText().toString());
+                        if(nama.getText().length()>0 && noHp.toString().length()>0 && SelectedId != -1){
+                            radioText = radioButton.getText().toString();
+                            Map<String, Object> user = new HashMap<>();
+                            user.put("Nama", nama.getText().toString());
+                            user.put("Jenis Kelamin", radioText);
+                            user.put("PhoneNumber", noHp.getText().toString());
 
-                        db.collection("User").document(firebaseUser.getUid())
-                                .update(user)
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        Log.d("TAG", "DocumentSnapshot successfully written!");
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Log.w("TAG", "Error writing document", e);
-                                    }
-                                });
-                        getUser();
-                        custom.hide();
-                        Toast.makeText(ProfilActivity.this, "Data berhasil diganti", Toast.LENGTH_SHORT).show();
+                            db.collection("User").document(firebaseUser.getUid())
+                                    .update(user)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Log.d("TAG", "DocumentSnapshot successfully written!");
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.w("TAG", "Error writing document", e);
+                                        }
+                                    });
+                            getUser();
+                            custom.hide();
+                            Toast.makeText(ProfilActivity.this, "Data berhasil diganti", Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(ProfilActivity.this, "Isi semua data terlebih dahulu!", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
                 custom.show();
@@ -128,7 +133,7 @@ public class ProfilActivity extends AppCompatActivity {
         });
 
 
-        manageMember.setOnClickListener(new View.OnClickListener() {
+        viewMember.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final Dialog manage = new Dialog(ProfilActivity.this);
@@ -149,6 +154,41 @@ public class ProfilActivity extends AppCompatActivity {
                                         DocumentReference docRef = db.collection("User").document(firebaseUser.getUid());
                                         if(firebaseUser.getUid().equals(document.getId())){
                                             profilMembership.setText(document.getString("Membership"));
+                                        }
+                                    }
+                                } else {
+                                    Log.w("TAG2", "Error getting documents.", task.getException());
+                                }
+                            }
+                        });
+
+                manage.show();
+            }
+        });
+
+        viewPT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Dialog manage = new Dialog(ProfilActivity.this);
+
+                manage.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                manage.setContentView(R.layout.managemembership);
+                manage.setCancelable(true);
+
+                TextView profilPT = manage.findViewById(R.id.profilMembership);
+                TextView title = manage.findViewById(R.id.textView2);
+                title.setText("Personal Trainer");
+
+                db.collection("User")
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        DocumentReference docRef = db.collection("User").document(firebaseUser.getUid());
+                                        if(firebaseUser.getUid().equals(document.getId())){
+                                            profilPT.setText(document.getString("Personal Trainer"));
                                         }
                                     }
                                 } else {

@@ -20,19 +20,6 @@
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 
 
-    <TextView
-        android:id="@+id/profile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
-        android:text="Profile"
-        android:textColor="@color/white"
-        android:textSize="35dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></TextView>
-
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="168dp"
@@ -61,21 +48,21 @@
         android:id="@+id/profilename"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="116dp"
+        android:layout_marginTop="20dp"
         android:text="Jimmy"
         android:textColor="@color/white"
         android:textSize="25dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile"></TextView>
+        app:layout_constraintTop_toBottomOf="@+id/cardView"></TextView>
 
     <TextView
         android:id="@+id/changename"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Change Name"
+        android:text="Edit Profile"
         android:textColor="#396aca"
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -173,17 +160,32 @@
         app:layout_constraintTop_toTopOf="@+id/phoneProfile"></TextView>
 
     <TextView
-        android:id="@+id/ManageMember"
-        android:layout_width="310dp"
+        android:id="@+id/ViewMember"
+        android:layout_width="175dp"
         android:layout_height="50dp"
         android:layout_marginTop="28dp"
         android:background="@drawable/roundedbtn"
         android:gravity="center"
-        android:text="Manage Membership"
+        android:text="View \nMembership"
         android:textColor="@color/white"
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.544"
+        app:layout_constraintHorizontal_bias="0.114"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/backgroundlist"></TextView>
+
+    <TextView
+        android:id="@+id/ViewPT"
+        android:layout_width="175dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/roundedbtn"
+        android:gravity="center"
+        android:text="View \nPersonal Trainer"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.894"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/backgroundlist"></TextView>
 
@@ -200,7 +202,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ManageMember"></TextView>
+        app:layout_constraintTop_toBottomOf="@+id/ViewMember"></TextView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

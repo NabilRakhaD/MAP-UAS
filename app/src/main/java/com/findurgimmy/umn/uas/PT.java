@@ -4,11 +4,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class PT implements Serializable {
-    private String nama, gym, noTelp, keahlian, ptpic;
+    private String nama, gym, noTelp, ptpic;
     private int rating, price, umur;
     private ArrayList<String> jadwal;
+    private ArrayList<String> keahlian;
 
-    public PT(String nama, String gym, int umur, String noTelp, int rating, int price, String ptpic, String keahlian, ArrayList<String> jadwal) {
+    public PT(String nama, String gym, int umur, String noTelp, int rating, int price, String ptpic, ArrayList<String> keahlian, ArrayList<String> jadwal) {
         this.nama = nama;
         this.umur = umur;
         this.noTelp = noTelp;
@@ -44,11 +45,11 @@ public class PT implements Serializable {
         this.noTelp = noTelp;
     }
 
-    public String getKeahlian() {
+    public ArrayList<String> getKeahlian() {
         return keahlian;
     }
 
-    public void setKeahlian(String keahlian) {
+    public void setKeahlian(ArrayList<String> keahlian) {
         this.keahlian = keahlian;
     }
 

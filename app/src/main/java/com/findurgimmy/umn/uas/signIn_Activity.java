@@ -188,6 +188,7 @@ public class signIn_Activity extends AppCompatActivity {
                                 userGoogle.put("Jenis Kelamin", "-");
                                 userGoogle.put("PhoneNumber", "-");
                                 userGoogle.put("Membership", "Belum mempunyai membership");
+                                userGoogle.put("Personal Trainer", "Belum mempunyai personal trainer");
 
                                 db.collection("User").document(user.getUid())
                                         .set(userGoogle)
@@ -204,9 +205,10 @@ public class signIn_Activity extends AppCompatActivity {
                                             }
                                         });
                             isGoogle = true;
-                            Intent MoveToMainActivity2 = new Intent(getApplicationContext(),MainActivity.class);
+                            Intent MoveToMainActivity2 = new Intent(getApplicationContext(),ProfilActivity.class);
                             MoveToMainActivity2.putExtra("isGoogle", isGoogle);
                             startActivity(MoveToMainActivity2);
+                            Toast.makeText(signIn_Activity.this, "Mohon untuk langsung melengkapi biodata dengan memilih Edit Profile", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

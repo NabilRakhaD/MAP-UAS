@@ -73,9 +73,9 @@ public class SignUpActivity extends AppCompatActivity {
             public void onClick(View view) {
                 int SelectedId = radioGroup.getCheckedRadioButtonId();
                 radioButton = (RadioButton) findViewById(SelectedId);
-                radioButtonText = radioButton.getText().toString();
 
                 if(username.getText().length()>0 && email.getText().length()>0 && pass.getText().length()>0 && phone.getText().length()>0 && SelectedId != -1){
+                    radioButtonText = radioButton.getText().toString();
                     register(username.getText().toString(), email.getText().toString(), pass.getText().toString(), phone.getText().toString(), radioButtonText);
                     Toast.makeText(SignUpActivity.this, "Berhasil Masuk", Toast.LENGTH_SHORT).show();
                 }else{
@@ -112,6 +112,7 @@ public class SignUpActivity extends AppCompatActivity {
                     user.put("Jenis Kelamin", gender);
                     user.put("PhoneNumber", phone);
                     user.put("Membership", "Belum mempunyai membership");
+                    user.put("Personal Trainer", "Belum mempunyai personal trainer");
 
                     db.collection("User").document(firebaseUser.getUid())
                             .set(user)

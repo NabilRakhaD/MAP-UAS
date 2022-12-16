@@ -150,31 +150,35 @@ public class DetailGymActivity extends AppCompatActivity {
                 int selectedId = radioGroup.getCheckedRadioButtonId();
                 radioButton = membership.findViewById(selectedId);
 
-                Map<String, Object> user = new HashMap<>();
-                if(radioButton.getText().toString().equals("W E E K L Y")){
-                    user.put("Membership", "Weekly di " + namagym);
-                }else if(radioButton.getText().toString().equals("M O N T H L Y")){
-                    user.put("Membership", "Monthly di " + namagym);
-                }else if(radioButton.getText().toString().equals("Y E A R L Y")){
-                    user.put("Membership", "Yearly di " + namagym);
-                }
+                if(selectedId != -1){
+                    Map<String, Object> user = new HashMap<>();
+                    if(radioButton.getText().toString().equals("W E E K L Y")){
+                        user.put("Membership", "Weekly di " + namagym);
+                    }else if(radioButton.getText().toString().equals("M O N T H L Y")){
+                        user.put("Membership", "Monthly di " + namagym);
+                    }else if(radioButton.getText().toString().equals("Y E A R L Y")){
+                        user.put("Membership", "Yearly di " + namagym);
+                    }
 
-                db.collection("User").document(firebaseUser.getUid())
-                        .update(user)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Log.d("TAG", "DocumentSnapshot successfully written!");
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.w("TAG", "Error writing document", e);
-                            }
-                        });
-                Toast.makeText(DetailGymActivity.this, "Anda memilih Membership " + radioButton.getText().toString(), Toast.LENGTH_SHORT).show();
-                membership.hide();
+                    db.collection("User").document(firebaseUser.getUid())
+                            .update(user)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d("TAG", "DocumentSnapshot successfully written!");
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w("TAG", "Error writing document", e);
+                                }
+                            });
+                    Toast.makeText(DetailGymActivity.this, "Anda memilih Membership " + radioButton.getText().toString(), Toast.LENGTH_SHORT).show();
+                    membership.hide();
+                }else{
+                    Toast.makeText(DetailGymActivity.this, "Silahkan pilih salah satu", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
