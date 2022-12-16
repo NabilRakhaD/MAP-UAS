@@ -1,11 +1,14 @@
 package com.findurgimmy.umn.uas;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -14,6 +17,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -35,21 +39,29 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class ProfilActivity extends AppCompatActivity {
-    TextView emailProfile, phoneProfile, genderProfile, profilename, editprofile, viewMember, viewPT;
+    TextView emailProfile, phoneProfile, genderProfile, profilename, editprofile, viewMember, viewPT, ambilfoto;
+    ImageView profilepic;
     FirebaseUser firebaseUser;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     GoogleSignInClient gsc;
     GoogleSignInOptions gso;
     RadioGroup radioGroup;
     RadioButton radioButton;
-    String radioText;
-
+    String radioText, nama;
+    Uri imageUri;
     TextView logout;
+    StorageReference storageReference;
+    ProgressDialog progressDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +74,8 @@ public class ProfilActivity extends AppCompatActivity {
         profilename = findViewById(R.id.profilename);
         viewMember = findViewById(R.id.ViewMember);
         editprofile = findViewById(R.id.changename);
+        ambilfoto = findViewById(R.id.ambilfoto);
+        profilepic = findViewById(R.id.profilePic);
         viewPT = findViewById(R.id.ViewPT);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -129,6 +143,13 @@ public class ProfilActivity extends AppCompatActivity {
                     }
                 });
                 custom.show();
+            }
+        });
+
+        ambilfoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectPhoto();
             }
         });
 
@@ -242,6 +263,63 @@ public class ProfilActivity extends AppCompatActivity {
         }
     }
 
+    private void selectPhoto() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, 100);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        String filename = nama + " ("+firebaseUser.getUid()+")";
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Upload Foto");
+        progressDialog.setMessage("Foto sedang diubah");
+        if(requestCode == 100 && data != null && data.getData() != null){
+            imageUri = data.getData();
+
+            progressDialog.show();
+            storageReference = FirebaseStorage.getInstance().getReference("Pictures/"+filename);
+            storageReference.putFile(imageUri)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    Map<String, Object> user = new HashMap<>();
+                                    user.put("Gambar", uri );
+                                    db.collection("User").document(firebaseUser.getUid())
+                                            .update(user)
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Log.d("TAG", "DocumentSnapshot successfully written!");
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Log.w("TAG", "Error writing document", e);
+                                                }
+                                            });
+                                }
+                            });
+                            getUser();
+                            progressDialog.dismiss();
+                            Toast.makeText(ProfilActivity.this, "Foto berhasil diubah", Toast.LENGTH_SHORT).show();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(ProfilActivity.this, "Foto gagal diubah", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+    }
+
     protected void searchGymPT(){
         final Dialog search = new Dialog(ProfilActivity.this);
 
@@ -293,6 +371,8 @@ public class ProfilActivity extends AppCompatActivity {
                                     emailProfile.setText(firebaseUser.getEmail());
                                     genderProfile.setText(document.getString("Jenis Kelamin"));
                                     phoneProfile.setText(document.getString("PhoneNumber"));
+                                    Picasso.get().load(document.getString("Gambar")).into(profilepic);
+                                    nama = document.getString("Nama");
                                 }
                             }
                         } else {
