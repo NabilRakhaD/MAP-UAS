@@ -4,8 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#131825"
     tools:context=".DetailPTActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#131825"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></TextView>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
@@ -135,8 +143,8 @@
         android:id="@+id/hargaPT"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="12dp"
         android:text="hargaPT"
         android:textColor="@color/white"
         android:textSize="20dp"
@@ -147,7 +155,7 @@
         android:id="@+id/btnSesi"
         android:layout_width="340dp"
         android:layout_height="40dp"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="92dp"
         android:background="@drawable/roundedbtn"
         android:gravity="center"
         android:text="Pilih Sesi"
@@ -155,7 +163,20 @@
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.45"
+        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/btmNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        app:itemIconTint="@drawable/selector"
+        app:itemTextColor="@drawable/selector"
+        android:background="@drawable/rounded"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/btnnavigationmenu"></com.google.android.material.bottomnavigation.BottomNavigationView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

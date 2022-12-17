@@ -91,6 +91,8 @@ public class DetailGymActivity extends AppCompatActivity {
 
         BottomNavigationView btmNavView = findViewById(R.id.btmNavigationView);
 
+        btmNavView.setSelectedItemId(R.id.search);
+
         btmNavView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener(){
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
