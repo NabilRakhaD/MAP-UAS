@@ -98,6 +98,10 @@ public class DetailPTActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        if(getSupportActionBar() != null){
+            getSupportActionBar().hide();
+        }
     }
 
     private void pilihansesi(){

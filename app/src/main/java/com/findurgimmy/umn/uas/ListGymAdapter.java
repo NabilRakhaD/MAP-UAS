@@ -49,7 +49,7 @@ public class ListGymAdapter extends RecyclerView.Adapter<ListGymAdapter.ListGymH
         holder.nama.setText(mlistgym.get(position).getNama());
         holder.jarak.setText(String.valueOf(getJarak(mlistgym.get(position), latitude, longitude)) + " km away");
         holder.rating.setText(String.valueOf(mlistgym.get(position).getRating()));
-        holder.price.setText(String.valueOf(mlistgym.get(position).getTeenagePrice() + " - " + mlistgym.get(position).getAdultPrice()));
+        holder.price.setText("Rp " + String.valueOf(mlistgym.get(position).getTeenagePrice() + " - " + mlistgym.get(position).getAdultPrice()));
         holder.tipe.setText(mlistgym.get(position).getTipe());
         Picasso.get().load(mlistgym.get(position).getGambar()).into(holder.gympic);
     }

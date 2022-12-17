@@ -114,6 +114,10 @@ public class DetailGymActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        if(getSupportActionBar() != null){
+            getSupportActionBar().hide();
+        }
     }
 
     private double getJarak(double desLat, double desLong, double currLat, double currLong) {
