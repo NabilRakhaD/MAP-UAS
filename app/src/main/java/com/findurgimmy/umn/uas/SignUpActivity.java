@@ -113,6 +113,7 @@ public class SignUpActivity extends AppCompatActivity {
                     user.put("PhoneNumber", phone);
                     user.put("Membership", "Belum mempunyai membership");
                     user.put("Personal Trainer", "Belum mempunyai personal trainer");
+                    user.put("Gambar", "https://firebasestorage.googleapis.com/v0/b/map-uas-1668359691312.appspot.com/o/Pictures%2Fprofile.png?alt=media&token=c6f62fb6-a725-4597-8208-cc5bfce33361");
 
                     db.collection("User").document(firebaseUser.getUid())
                             .set(user)
