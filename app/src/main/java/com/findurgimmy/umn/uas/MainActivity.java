@@ -73,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //Get Location
-        //locationProviderClient = LocationServices.getFusedLocationProviderClient(MainActivity.this);
         locationProviderClient = LocationServices.getFusedLocationProviderClient(MainActivity.this);
 
         //Get Data Gym
@@ -115,7 +114,6 @@ public class MainActivity extends AppCompatActivity {
                     ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(this, "Lokasi tidak di aktifkan", Toast.LENGTH_SHORT).show();
             }else {
-                Log.d("longlat", "wooooooooooooooi2");
                 getLocation();
             }
         }
@@ -127,7 +125,6 @@ public class MainActivity extends AppCompatActivity {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},10);
             }
-            Log.d("longlat", "wooooooooooooooi3");
         }else {
             Log.d("status", "getting user's location");
             locationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
