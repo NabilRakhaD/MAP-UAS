@@ -141,13 +141,13 @@ public class MainActivity extends AppCompatActivity {
                         SharedPreferences.Editor editor = sharedPref.edit();
                         editor.putString("latitude", String.valueOf(latitude));
                         editor.putString("longitude", String.valueOf(longitude));
-                        editor.putString("isGoogle", String.valueOf(isGoogle));
                         editor.commit();
                     }
 
-                    viewPager = findViewById(R.id.viewpager);
+                    viewPager = (ViewPager) findViewById(R.id.viewpager);
                     maingymadap = new MainGymAdapter(MainActivity.this, listgymMain);
                     viewPager.setAdapter(maingymadap);
+                    viewPager.setPadding(100, 0,100,0);
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override

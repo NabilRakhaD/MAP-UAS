@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 public class ListPTAdapter extends RecyclerView.Adapter<ListPTAdapter.ListPTHolder> {
@@ -38,6 +40,7 @@ public class ListPTAdapter extends RecyclerView.Adapter<ListPTAdapter.ListPTHold
         holder.rating.setText(String.valueOf(mlistpt.get(position).getRating()));
         holder.price.setText("Rp " + String.valueOf(mlistpt.get(position).getPrice()));
         holder.tipe.setText(mlistpt.get(position).getKeahlian().get(0) + ", " + mlistpt.get(position).getKeahlian().get(1));
+        Picasso.get().load(mlistpt.get(position).getPtpic()).into(holder.ptpic);
     }
 
 

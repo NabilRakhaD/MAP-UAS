@@ -25,6 +25,7 @@ import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -63,6 +64,7 @@ public class DetailPTActivity extends AppCompatActivity {
         hargapt.setText("Harga per sesi : Rp " + pt.getPrice());
         sesi1.setText(pt.getJadwal().get(0));
         sesi2.setText(pt.getJadwal().get(1));
+        Picasso.get().load(pt.getPtpic()).into(ptPic);
 
         ptname = String.valueOf(pt.getNama());
 

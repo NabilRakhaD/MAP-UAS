@@ -79,8 +79,8 @@ public class PTActivity extends AppCompatActivity {
                             for(QueryDocumentSnapshot document : task.getResult()){
                                 listpt.add(new PT(document.getString("Nama"), document.getString("Gym"),
                                            Integer.parseInt(document.get("Umur").toString()), document.getString("PhoneNumber"),
-                                           Integer.parseInt(document.get("Rating").toString()),Integer.parseInt(document.get("Price").toString()),
-                                           document.getString("Picture"), (ArrayList<String>) document.get("Keahlian"),
+                                           Integer.parseInt(document.get("Rating").toString()), Integer.parseInt(document.get("Harga").toString()),
+                                           document.getString("Gambar"), (ArrayList<String>) document.get("Keahlian"),
                                            (ArrayList<String>) document.get("Jadwal")));
                                 //Log.d("array", String.valueOf(document.getData()));
                             }

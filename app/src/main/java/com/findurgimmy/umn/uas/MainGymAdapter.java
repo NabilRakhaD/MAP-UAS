@@ -5,6 +5,7 @@ import static android.content.Context.MODE_PRIVATE;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +52,9 @@ public class MainGymAdapter extends PagerAdapter {
         SharedPreferences sharedPreferences = context.getSharedPreferences("myKey", MODE_PRIVATE);
         double latitude = Double.parseDouble(sharedPreferences.getString("latitude",""));
         double longitude = Double.parseDouble(sharedPreferences.getString("longitude",""));
+
+        Log.d("viewpager", String.valueOf(listgymMain.size()));
+        Log.d("viewpager2", String.valueOf(position));
 
 
         Gym gym = listgymMain.get(position);
