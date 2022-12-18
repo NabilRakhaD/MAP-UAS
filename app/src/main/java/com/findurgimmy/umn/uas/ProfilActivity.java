@@ -207,7 +207,6 @@ public class ProfilActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                 if (task.isSuccessful()) {
                                     for (QueryDocumentSnapshot document : task.getResult()) {
-                                        DocumentReference docRef = db.collection("User").document(firebaseUser.getUid());
                                         if(firebaseUser.getUid().equals(document.getId())){
                                             profilPT.setText(document.getString("Personal Trainer"));
                                         }

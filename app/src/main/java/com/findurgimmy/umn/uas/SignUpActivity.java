@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -28,7 +30,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SignUpActivity extends AppCompatActivity {
-    TextView signIn, btnLets;
+    TextView signIn, btnLets, showhide;
+    boolean show = false;
     EditText username, email, phone, pass;
     ProgressDialog progressDialog;
     RadioGroup radioGroup;
@@ -59,6 +62,21 @@ public class SignUpActivity extends AppCompatActivity {
         progressDialog.setTitle("Loading");
         progressDialog.setMessage("Tunggu Sebentar");
         progressDialog.setCancelable(false);
+        showhide = findViewById(R.id.showhide);
+
+        showhide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!show){
+                    pass.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    show = true;
+                }else{
+                    pass.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    show = false;
+                }
+
+            }
+        });
 
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override

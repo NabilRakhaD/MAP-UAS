@@ -157,7 +157,6 @@ public class signIn_Activity extends AppCompatActivity {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
 
             try {
-                //acct = GoogleSignIn.getLastSignedInAccount(this);
                 acct = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(acct.getIdToken());
                 isGoogle = true;
