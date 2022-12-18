@@ -129,9 +129,9 @@ public class signIn_Activity extends AppCompatActivity {
     }
 
     private  void reload(){
-        isGoogle = false;
+        //isGoogle = false;
         Intent MoveToMainActivity2 = new Intent(this,MainActivity.class);
-        MoveToMainActivity2.putExtra("isGoogle", isGoogle);
+        //MoveToMainActivity2.putExtra("isGoogle", isGoogle);
         startActivity(MoveToMainActivity2);
     }
 

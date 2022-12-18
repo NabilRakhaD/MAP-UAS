@@ -53,10 +53,6 @@ public class MainGymAdapter extends PagerAdapter {
         double latitude = Double.parseDouble(sharedPreferences.getString("latitude",""));
         double longitude = Double.parseDouble(sharedPreferences.getString("longitude",""));
 
-        Log.d("viewpager", String.valueOf(listgymMain.size()));
-        Log.d("viewpager2", String.valueOf(position));
-
-
         Gym gym = listgymMain.get(position);
         Picasso.get().load(gym.getGambar()).into(image);
         nama.setText(gym.getNama());

@@ -80,6 +80,7 @@ public class ProfilActivity extends AppCompatActivity {
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         getUser();
+
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken("61956869598-6eieomiljbdgu84ntjqvd13nk4kd4i93.apps.googleusercontent.com")
                 .requestEmail().build();
