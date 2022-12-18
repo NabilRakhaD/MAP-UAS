@@ -69,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
 
         if (firebaseUser != null) {
             HomeTitle.setText(firebaseUser.getDisplayName());
-            Toast.makeText(this, "masuk firebase", Toast.LENGTH_SHORT).show();
         }
 
         //Get Location
